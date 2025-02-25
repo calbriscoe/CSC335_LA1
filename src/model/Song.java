@@ -5,16 +5,18 @@ public class Song {
 	private String name;
 	private String author;
 	private String genre;
-	private int year;
+	private String year;
 	private boolean favorite;
+	private Rating rating;
 	
 	
-	public Song(String name, String author, String genre, int year ) {
+	public Song(String name, String author, String genre, String year ) {
 		this.name = name;
 		this.author = author;
 		this.genre = genre;
 		this.year = year;
 		this.favorite = false;
+		this.rating = Rating.None;
 	}
 	
 	// Returns a string of all the Songs information
@@ -36,10 +38,13 @@ public class Song {
 	public String getGenre() {
 		return this.genre;
 	}
-	public int getYear() {
+	public String getYear() {
 		return this.year;
 	}
 	public boolean getFavorite() {
 		return favorite;
+	}
+	public Rating getRating() {
+		return rating;
 	}
 }
