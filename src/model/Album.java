@@ -9,8 +9,11 @@ public class Album {
 	private ArrayList<Song> songs;
 	private String name;
 	private String author;
+	
+	// Are these needed?
 	private String genre;
 	private int year;
+	// -------------
 	
 	// Add way to read in files 
 	public Album(String name, String author) {
@@ -19,6 +22,12 @@ public class Album {
 		this.author = author;
 	}
 	
+	public Album(Album album) {
+		this.songs = album.songs;
+		this.name = album.name;
+		this.author = album.author;
+	}
+
 	// Searches for a Song within album
 	public ArrayList<String> searchSong(String name) {
 		ArrayList<String> songList = new ArrayList<String>();
