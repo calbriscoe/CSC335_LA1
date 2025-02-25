@@ -28,6 +28,7 @@ public class MusicStore {
 		
 	}
 	
+	// Return Song information
 	public String songInfo(String name) {
 		ArrayList<String> foundSongs = new ArrayList<String>();
 		for (int i = 0; i < albumList.size(); i++) {
@@ -64,4 +65,5 @@ public class MusicStore {
 		}
 		return "Album not found!";
 	}
+	
 }
