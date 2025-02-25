@@ -1,6 +1,8 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Album {
 
@@ -11,9 +13,10 @@ public class Album {
 	private int year;
 	
 	// Add way to read in files 
-	public Album() {
+	public Album(String name, String author) {
 		this.songs = new ArrayList<Song>();
-		this.name = "JOhn"; //Replace
+		this.name = name;
+		this.author = author;
 	}
 	
 	// Searches for a Song within album
@@ -31,6 +34,27 @@ public class Album {
 		return songList;
 	}
 	
+	public void addSongs(File file) {
+		try {
+	        Scanner myReader = new Scanner(file);
+	        String info = myReader.nextLine();
+	        String[] infoArr = info.split(",");
+	        
+	        String author = infoArr[1];
+	        String genre  = infoArr[2];
+	        String year   = infoArr[3];
+	        
+	        while (myReader.hasNextLine()) {
+	        	String data = myReader.nextLine();
+	        	songs.add(new Song(data, author, genre, year));
+	        }
+	        myReader.close();
+	    	} catch (Exception e) {
+	    		System.out.println("File error occurred.");
+	    		e.printStackTrace();
+	    	}
+	}
+	
 	
 	//Basic Getters
 	public String getName() {
@@ -40,7 +64,7 @@ public class Album {
 		return this.author;
 	}
 	public String getInfo() {
-		String info = this.name + " by " + this.author + " Genre: " + this.genre + " Year: " + this.year;
+		String info = this.name + " by " + this.author;
 		return info;
 	}
 	public ArrayList<Song> getSongs() {

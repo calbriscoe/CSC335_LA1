@@ -2,18 +2,30 @@
 
 
 package model;
+import java.io.File;
 import java.util.ArrayList;
 
 //import model.Song;
 
 
 public class MusicStore {
-	
+
 	private ArrayList<Album> albumList;
 	
 	
 	public MusicStore() {
 		this.albumList = new ArrayList<Album>();
+	}
+	
+	public void addAlbum(File file) {
+		String fileName = file.getName();
+		String[] split = fileName.split("_");
+		if (split.length > 1) {
+			Album added = new Album(split[0], split[1].substring(0,split[1].length() - 4));
+			added.addSongs(file);
+			albumList.add(added);
+		}
+		
 	}
 	
 	public String songInfo(String name) {

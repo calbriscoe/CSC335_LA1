@@ -13,22 +13,25 @@ public class Main {
 		MusicStore store = new MusicStore();
 		LibraryModel user = new LibraryModel();
 		
-		// Format/Style based on Java W3 School Java API
-		// Also does not work 
-		try {
-		      File album = new File("19_Adele.txt");
-		      Scanner myScanner = new Scanner(album);
-		      String albumData = myScanner.nextLine();
-		      while (myScanner.hasNextLine()) {
-		        String songData = myScanner.nextLine();
-		        System.out.println(songData);
-		      }
-		      myScanner.close();
-		 } catch (FileNotFoundException e) {
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();
-		    }
-		
+		// Path of the specific directory for me
+		// Wouldn't work on gitHub so not sure what to
+		//    replace it with. Also gitHub still bugging
+	    String directoryPath = "C:/Users/sonny/Documents/albums";
+	    File directory = new File(directoryPath);
+	    File[] files = directory.listFiles();
+	      
+	    // Print name of the all files present in that path
+	    System.out.println("Print: ");
+	    if (files != null) {
+	    	for (File file : files) {
+	          store.addAlbum(file);
+	        }
+	    }
+	    
+	    
+	    // Small testing
+	    System.out.print(store.albumInfo("Begin Again"));
+	    System.out.print(store.songInfo("Norah Jones"));
 		
 	}
 }
