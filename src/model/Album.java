@@ -11,10 +11,32 @@ public class Album {
 	private int year;
 	
 	// Add way to read in files 
-	public Album() {
+	public Album(String name, String author, String genre, int year) {
 		this.songs = new ArrayList<Song>();
-		this.name = "JOhn"; //Replace
+		this.name = name; //Replace
+		this.author = author;
+		this.genre = genre;
+		this.year = year;
 	}
+	
+	public Album(Album album) {
+		this.songs = (ArrayList<Song>) album.getSongs().clone();
+		this.name = album.getName();
+		this.author = album.getAuthor();
+		this.genre = album.getGenre();
+		this.year = album.getYear();
+		
+	}
+	
+	public int getYear() {
+		return this.year;
+	}
+	
+	
+	public void addSong(Song s) {
+		songs.add(s);
+	}
+	
 	
 	// Searches for a Song within album
 	public ArrayList<String> searchSong(String name) {
@@ -31,7 +53,9 @@ public class Album {
 		return songList;
 	}
 	
-	
+	public String getGenre(){
+		return this.genre;
+	}
 	//Basic Getters
 	public String getName() {
 		return this.name;

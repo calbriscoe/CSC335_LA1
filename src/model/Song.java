@@ -17,6 +17,14 @@ public class Song {
 		this.favorite = false;
 	}
 	
+	public Song(Song s) {
+		this.name = s.getName();
+		this.author = s.getAuthor();
+		this.genre = s.getGenre();
+		this.year = s.getYear();
+		this.favorite = s.getFavorite();
+	}
+	
 	// Returns a string of all the Songs information
 	public String getInfo() {
 		String info = this.name + " by " + this.author + ". Genre: " + this.genre;
@@ -42,4 +50,16 @@ public class Song {
 	public boolean getFavorite() {
 		return favorite;
 	}
+	
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) 
+        	return true;
+        if (o == null || this.getClass() != o.getClass()) 
+        	return false;
+        Song song = (Song) o;
+        	return year == song.getYear() && name.equals(song.name) && 
+        			song.getFavorite() == favorite && author.equals(author) &&
+        			song.genre.equals(genre);
+    }
 }
