@@ -18,6 +18,14 @@ public class Song {
 		this.favorite = false;
 		this.rating = Rating.None;
 	}
+	public Song(Song song) {
+		this.name = song.name;
+		this.author = song.author;
+		this.genre = song.genre;
+		this.year = song.year;
+		this.favorite = false;
+		this.rating = Rating.None;
+	}
 	
 	// Returns a string of all the Songs information
 	public String getInfo() {

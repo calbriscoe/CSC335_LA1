@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import model.Song;
 
 public class LibraryModel {
-
 	private ArrayList<PlayList> playList;
 	private ArrayList<Album> albumList; // Specs require this, bit repetitive
 	public  MusicStore musicStore;      
@@ -16,8 +15,11 @@ public class LibraryModel {
 		this.albumList = new ArrayList<Album>();
 	}
 	
-	public void addPlayList(Album album) {
-		this.playList.add(new PlayList(album));
+	public void addPlayList(ArrayList<Album> albums) {
+		if (albums == null) { return; }
+		for (Album album : albums) {
+			this.playList.add(new PlayList(album));
+		}
 	}
 	public void createPlayList(String name) {
 		this.playList.add(new PlayList(name));
@@ -34,8 +36,16 @@ public class LibraryModel {
 	
 	// Adds song from Store to playlist
 	public void addSongToPlayList(String playName, String songName) {
-		PlayList playList = getPlayList(playName);
-		//playList.addSong(musicStore.findSong());
+		for (PlayList playList : this.playList) {
+			if (playList.getName().equals(playName)) {
+				playList = getPlayList(playName);
+				playList.addSong(musicStore.getSong(songName));
+				return;
+			}
+		}
+		PlayList playList = new PlayList(playName);
+		this.playList.add(playList);
+		playList.addSong(musicStore.getSong(songName));
 	}
 	
 	public String songInfo(String name) {

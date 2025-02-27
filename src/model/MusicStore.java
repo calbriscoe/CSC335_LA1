@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class MusicStore {
 
-	private ArrayList<Album> albumList;
+private ArrayList<Album> albumList;
 	
 	
 	public MusicStore() {
@@ -37,8 +37,6 @@ public class MusicStore {
 				foundSongs.add(temp.get(j));
 			}
 		}
-		// Not sure if we should return a string or print later
-		// need to work on Visual
 		if (foundSongs.size() > 0) {
 			String list = "";
 			for (String info : foundSongs) {
@@ -47,6 +45,22 @@ public class MusicStore {
 			return list;
 		} else {
 			return "Song not found!";
+		}
+	}
+	// Return Song object
+	public ArrayList<Song> getSong(String name) {
+		ArrayList<Song> foundSongs = new ArrayList<Song>();
+		for (Album album : albumList) {
+			for (Song song : album.getSongs()) {
+				if (song.getName().equals(name)) {
+					foundSongs.add(new Song(song));
+				}
+			}
+		}
+		if (foundSongs.size() > 0) {
+			return foundSongs;
+		} else {
+			return null;
 		}
 	}
 	
@@ -65,5 +79,19 @@ public class MusicStore {
 		}
 		return "Album not found!";
 	}
-	
+	// Return Album Information
+	public ArrayList<Album> getAlbum(String name) {
+		ArrayList<Album> found = new ArrayList<Album>();
+		for (int i = 0; i < albumList.size(); i++) {
+			if (albumList.get(i).getName().equals(name)){
+				found.add(new Album(albumList.get(i)));
+			} else if (albumList.get(i).getAuthor().equals(name)){
+				found.add(new Album(albumList.get(i)));
+			}
+		}
+		if (found.size() > 0) {
+			return found;
+		}
+		return null;
+	}
 }
