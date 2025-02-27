@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class PlayList {
+
 	private String name;
 	private ArrayList<Song> songList;
 	
@@ -17,6 +18,11 @@ public class PlayList {
 	
 	public void addSong(Song song) {
 		songList.add(song);
+	}
+	public void addSong(ArrayList<Song> songs) {
+		for (Song song : songs) {
+			songList.add(song);
+		}
 	}
 	public void removeSong(Song song) {
 		songList.remove(song);
