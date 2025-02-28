@@ -11,6 +11,10 @@ public class PlayList {
 		this.name = name;
 		this.songList = new ArrayList<Song>();
 	}
+	public PlayList(Album album) {
+		this.name = album.getName();
+		this.songList = new ArrayList<Song>(album.getSongs());
+	}
 	
 	public PlayList(PlayList playlist) {
 		this.name = playlist.getName();
@@ -20,6 +24,11 @@ public class PlayList {
 	public void addSong(Song song) {
 		if(!songList.contains(song))
 			songList.add(song);
+	}
+	public void addSong(ArrayList<Song> songs) {
+		for (Song song : songs) {
+			songList.add(song);
+		}
 	}
 	public void removeSong(Song song) {
 		songList.remove(song);
