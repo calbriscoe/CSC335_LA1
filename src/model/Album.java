@@ -9,11 +9,8 @@ public class Album {
 	private ArrayList<Song> songs;
 	private String name;
 	private String author;
-	
-	// Are these needed?
 	private String genre;
 	private int year;
-	// -------------
 	
 	// Add way to read in files 
 	public Album(String name, String author) {
@@ -23,7 +20,7 @@ public class Album {
 	}
 	
 	public Album(Album album) {
-		this.songs = album.songs;
+		this.songs = (ArrayList<Song>) album.songs.clone();
 		this.name = album.name;
 		this.author = album.author;
 	}
@@ -48,6 +45,9 @@ public class Album {
 	        String genre  = infoArr[2];
 	        String year   = infoArr[3];
 	        
+	        this.year = Integer.valueOf(year);
+	        this.genre = genre;
+	        
 	        while (myReader.hasNextLine()) {
 	        	String data = myReader.nextLine();
 	        	songs.add(new Song(data, author, genre, year));
@@ -66,12 +66,21 @@ public class Album {
 	public String getAuthor() {
 		return this.author;
 	}
+	public int getYear() {
+		return this.year;
+	}
+	public String getGenre() {
+		return this.genre;
+	}
 	public String getInfo() {
 		String info = this.name + " by " + this.author;
 		return info;
 	}
+	public String getFullInfo() {
+		String info = this.name + " by " + this.author + " created in " + this.year +". Genre: " + this.genre;
+		return info;
+	}
 	public ArrayList<Song> getSongs() {
-		// Is this a escaping references?
 		ArrayList<Song> temp = (ArrayList<Song>) songs.clone();
 		return temp;
 	}
@@ -83,8 +92,13 @@ public class Album {
         if (o == null || this.getClass() != o.getClass()) 
         	return false;
         Album album = (Album) o;
-        	return year == album.getYear() && name.equals(album.name) && 
+        	return name.equals(album.name) && 
         			author.equals(author) &&
-        			album.getGenre().equals(genre) && album.getSongs().equals(this.getSongs());
+        			album.getSongs().equals(this.getSongs());
     }
+
+	public void addSong(Song song) {
+		if(!songs.contains(song))
+			songs.add(song);
+	}
 }

@@ -4,7 +4,7 @@ public enum Rating {
 	None, One, Two, Three, Four, Five;
 	
 	
-	public static Rating getRating(int rate) {
+	public static Rating setRating(int rate) {
 		if (rate < 1) {
 			rate = 0;
 		}
