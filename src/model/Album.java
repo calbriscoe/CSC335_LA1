@@ -23,7 +23,7 @@ public class Album {
 	}
 	
 	public Album(Album album) {
-		this.songs = album.songs;
+		this.songs = (ArrayList<Song>) album.songs.clone();
 		this.name = album.name;
 		this.author = album.author;
 	}
@@ -83,8 +83,13 @@ public class Album {
         if (o == null || this.getClass() != o.getClass()) 
         	return false;
         Album album = (Album) o;
-        	return year == album.getYear() && name.equals(album.name) && 
+        	return name.equals(album.name) && 
         			author.equals(author) &&
-        			album.getGenre().equals(genre) && album.getSongs().equals(this.getSongs());
+        			album.getSongs().equals(this.getSongs());
     }
+
+	public void addSong(Song song) {
+		if(!songs.contains(song))
+			songs.add(song);
+	}
 }

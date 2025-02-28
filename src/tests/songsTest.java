@@ -8,7 +8,7 @@ import model.*;
 
 class songsTest {
 
-	Song song = new Song("Yam Yam", "No Vacation", "Indie", 2017);
+	Song song = new Song("Yam Yam", "No Vacation", "Indie", "2017");
 	
 	Song song1 = new Song(song);
 	
@@ -41,7 +41,7 @@ class songsTest {
 	}
 	@Test
 	void getYearTest() {
-		assertEquals(2017, song.getYear());
+		assertEquals("2017", song.getYear());
 	}
 	@Test
 	void equalsTest01() {

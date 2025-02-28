@@ -11,11 +11,11 @@ import model.Song;
 
 class playListTests {
 
-	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", 2021);
-	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", 2017);
-	Song song3 = new Song("Survival Tactics", "Joey Bada$$", "Hip-Hop", 2012);
-	Song song4 = new Song("Telephones", "Vacations", "Indie", 2018);
-	Song song5 = new Song("Magnetic", "ILLIT", "K-Pop", 2024);
+	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", "2021");
+	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", "2017");
+	Song song3 = new Song("Survival Tactics", "Joey Bada$$", "Hip-Hop", "2012");
+	Song song4 = new Song("Telephones", "Vacations", "Indie", "2018");
+	Song song5 = new Song("Magnetic", "ILLIT", "K-Pop", "2024");
 	
 	PlayList playlist = new PlayList("Test");
 	

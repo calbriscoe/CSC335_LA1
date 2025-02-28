@@ -19,14 +19,17 @@ public class LibraryModel {
 		this.albumList = new ArrayList<Album>();
 	}
 
-	public void favoriteSong(String songName) {
+	public boolean favoriteSong(String songName) {
+		boolean returnval = false;
 		for (Song s : library) {
 			if (s.getName().equals(songName)) {
 				s.setFavorite();
+				returnval = true;
 			}
 		}
+		return returnval;
 	}
-    
+	    
 	public void addPlayList(ArrayList<Album> albums) {
 		if (albums == null) { return; }
 		for (Album album : albums) {

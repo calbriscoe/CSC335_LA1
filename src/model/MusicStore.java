@@ -30,17 +30,37 @@ private ArrayList<Album> albumList;
 	
 	// Return Song information
 	public String songInfo(String name) {
-		ArrayList<String> foundSongs = new ArrayList<String>();
+		ArrayList<Song> foundSongs = new ArrayList<Song>();
 		for (int i = 0; i < albumList.size(); i++) {
-			ArrayList<String> temp = albumList.get(i).searchSong(name);
+			ArrayList<Song> temp = albumList.get(i).searchSong(name);
 			for (int j = 0; j < temp.size(); j++) {
 				foundSongs.add(temp.get(j));
 			}
 		}
 		if (foundSongs.size() > 0) {
 			String list = "";
-			for (String info : foundSongs) {
-				list += info + '\n';
+			for (Song s : foundSongs) {
+				list += s.getInfo() + '\n';
+			}
+			return list;
+		} else {
+			return "Song not found!";
+		}
+	}
+	
+	// Return Song information
+	public String songInfoArtist(String name) {
+		ArrayList<Song> foundSongs = new ArrayList<Song>();
+		for (int i = 0; i < albumList.size(); i++) {
+			ArrayList<Song> temp = albumList.get(i).searchSong(name);
+			for (int j = 0; j < temp.size(); j++) {
+				foundSongs.add(temp.get(j));
+			}
+		}
+		if (foundSongs.size() > 0) {
+			String list = "";
+			for (Song s : foundSongs) {
+				list += s.getInfo() + '\n';
 			}
 			return list;
 		} else {
@@ -93,5 +113,14 @@ private ArrayList<Album> albumList;
 			return found;
 		}
 		return null;
+	}
+	
+	//
+	public ArrayList<Album>getAlbumList(){
+		ArrayList<Album> albums = new ArrayList<Album>();
+		for(Album a: albumList) {
+			albums.add(new Album(a));
+		}
+		return albums;
 	}
 }

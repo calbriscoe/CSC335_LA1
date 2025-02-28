@@ -9,14 +9,14 @@ import model.Song;
 
 class albumTest {
 
-	Album album1 = new Album("Jen", "Plums", "Indie", 2015);
-	Song song6 = new Song("Parking Lots", "Plums", "Indie", 2015);
-	Song song7 = new Song("Julia Gloria", "Plums", "Indie", 2015);
-	Song song8 = new Song("Jen", "Plums", "Indie", 2015);
-	Song song9 = new Song("Lounger", "Plums", "Indie", 2015);
-	Song song10 = new Song("Fine Madeline", "Plums", "Indie", 2015);
-	Song song11 = new Song("Room Song", "Plums", "Indie", 2015);
-	Song song12 = new Song("They Love Me They Love Me", "Plums", "Indie", 2015);
+	Album album1 = new Album("Jen", "Plums");
+	Song song6 = new Song("Parking Lots", "Plums", "Indie", "2015");
+	Song song7 = new Song("Julia Gloria", "Plums", "Indie", "2015");
+	Song song8 = new Song("Jen", "Plums", "Indie", "2015");
+	Song song9 = new Song("Lounger", "Plums", "Indie", "2015");
+	Song song10 = new Song("Fine Madeline", "Plums", "Indie", "2015");
+	Song song11 = new Song("Room Song", "Plums", "Indie", "2015");
+	Song song12 = new Song("They Love Me They Love Me", "Plums", "Indie", "2015");
 	
 	@Test
 	void addSongTest() {
@@ -62,14 +62,9 @@ class albumTest {
     }
 
     @Test
-    void getGenreTest() {
-        assertEquals("Indie", album1.getGenre());
-    }
-
-    @Test
     void getInfoTest() {
-        Album album = new Album("Jen", "Plums", "Indie", 2015);
-        assertEquals("Jen by Plums Genre: Indie Year: 2015", album.getInfo());
+        Album album = new Album("Jen", "Plums");
+        assertEquals("Jen by Plums", album.getInfo());
     }
 	
 }

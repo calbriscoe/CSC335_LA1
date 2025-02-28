@@ -25,6 +25,14 @@ public class PlayList {
 		if(!songList.contains(song))
 			songList.add(song);
 	}
+	
+	public void removeSong(String name) {
+		for(int i = songList.size() - 1; i >= 0; i--) {
+			if(songList.get(i).getName().equals(name))
+				songList.remove(i);
+		}
+	}
+	
 	public void addSong(ArrayList<Song> songs) {
 		for (Song song : songs) {
 			songList.add(song);
