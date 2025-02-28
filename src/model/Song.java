@@ -27,14 +27,6 @@ public class Song {
 		this.rating = Rating.None;
 	}
 	
-	public Song(Song s) {
-		this.name = s.getName();
-		this.author = s.getAuthor();
-		this.genre = s.getGenre();
-		this.year = s.getYear();
-		this.favorite = s.getFavorite();
-	}
-	
 	// Returns a string of all the Songs information
 	public String getInfo() {
 		String info = this.name + " by " + this.author + ". Genre: " + this.genre;
@@ -42,6 +34,12 @@ public class Song {
 	}
 	public void setFavorite() {
 		this.favorite = !this.favorite;
+	}
+	public void setRating(int rating) {
+		this.rating.setRating(rating);
+		if (this.rating == Rating.Five) {
+			this.favorite = true;
+		}
 	}
 	
 	// Basic Getters (No references, all primitive)

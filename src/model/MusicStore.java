@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class MusicStore {
 
-private ArrayList<Album> albumList;
-	
+	private ArrayList<Album> albumList;
+		
 	
 	public MusicStore() {
 		this.albumList = new ArrayList<Album>();
@@ -95,3 +95,4 @@ private ArrayList<Album> albumList;
 		return null;
 	}
 }
+	

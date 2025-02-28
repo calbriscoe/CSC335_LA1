@@ -9,8 +9,6 @@ public class Album {
 	private ArrayList<Song> songs;
 	private String name;
 	private String author;
-	
-	// Are these needed?
 	private String genre;
 	private int year;
 	// -------------
@@ -27,13 +25,18 @@ public class Album {
 		this.name = album.name;
 		this.author = album.author;
 	}
+
 	// Searches for a Song within album
-	public ArrayList<Song> searchSong(String name) {
-		ArrayList<Song> songList = new ArrayList<Song>();
+	public ArrayList<String> searchSong(String name) {
+		ArrayList<String> songList = new ArrayList<String>();
 		
-		for(Song s : songs) {
-			if(s.getName().equals(name))
-				songList.add(new Song(s));
+		// In case multiple same named songs in one Album
+		for (int i = 0; i < songs.size(); i++) {
+			if (songs.get(i).getName().equals(name)){
+				songList.add(songs.get(i).getInfo());
+			} else if (songs.get(i).getAuthor().equals(name)){
+				songList.add(songs.get(i).getInfo());
+			}
 		}
 		return songList;
 	}
@@ -59,12 +62,19 @@ public class Album {
 	    	}
 	}
 	
+	
 	//Basic Getters
 	public String getName() {
 		return this.name;
 	}
 	public String getAuthor() {
 		return this.author;
+	}
+	public int getYear() {
+		return this.year;
+	}
+	public String getGenre() {
+		return this.genre;
 	}
 	public String getInfo() {
 		String info = this.name + " by " + this.author;
@@ -75,8 +85,7 @@ public class Album {
 		ArrayList<Song> temp = (ArrayList<Song>) songs.clone();
 		return temp;
 	}
-
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) 
         	return true;

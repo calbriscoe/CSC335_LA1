@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class LibraryModel {
 
-  private ArrayList<Song> library;
+	private ArrayList<Song> library;
 	private ArrayList<PlayList> playList;
 	private ArrayList<Album> albumList; // Specs require this, bit repetitive
 	public  MusicStore musicStore;      
@@ -47,11 +47,11 @@ public class LibraryModel {
 	}
 	
 	// Adds song from Store to playlist
-	public void addSongToPlayList(String playName, String songName) {
+	public void addSongToPlayList(String playName, String songName, MusicStore store) {
 		for (PlayList playList : this.playList) {
 			if (playList.getName().equals(playName)) {
 				playList = getPlayList(playName);
-				playList.addSong(musicStore.getSong(songName));
+				playList.addSong(store.getSong(songName));
 				return;
 			}
 		}
@@ -135,6 +135,16 @@ public class LibraryModel {
 			}
 		}
 		return returnList;
+	}
+	
+	public void removeSongs(String name) {
+		for (PlayList playlist : this.playList) {
+			for (Song songs : playlist.getSongs()) {
+				if (songs.getName().equals(name)) {
+					playlist.getSongs().remove(songs);
+				}
+			}
+		}
 	}
 
 	// GETTERS AND SETTERS
