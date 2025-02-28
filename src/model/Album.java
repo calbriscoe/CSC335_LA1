@@ -34,21 +34,18 @@ public class Album {
 	
 	
 	public void addSong(Song s) {
-		songs.add(s);
+		if(!songs.contains(s))
+			songs.add(s);
 	}
-	
+
 	
 	// Searches for a Song within album
-	public ArrayList<String> searchSong(String name) {
-		ArrayList<String> songList = new ArrayList<String>();
+	public ArrayList<Song> searchSong(String name) {
+		ArrayList<Song> songList = new ArrayList<Song>();
 		
-		// In case multiple same named songs in one Album
-		for (int i = 0; i < songs.size(); i++) {
-			if (songs.get(i).getName().equals(name)){
-				songList.add(songs.get(i).getInfo());
-			} else if (songs.get(i).getAuthor().equals(name)){
-				songList.add(songs.get(i).getInfo());
-			}
+		for(Song s : songs) {
+			if(s.getName().equals(name))
+				songList.add(new Song(s));
 		}
 		return songList;
 	}
@@ -72,4 +69,16 @@ public class Album {
 		ArrayList<Song> temp = (ArrayList<Song>) songs.clone();
 		return temp;
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) 
+        	return true;
+        if (o == null || this.getClass() != o.getClass()) 
+        	return false;
+        Album album = (Album) o;
+        	return year == album.getYear() && name.equals(album.name) && 
+        			author.equals(author) &&
+        			album.getGenre().equals(genre) && album.getSongs().equals(this.getSongs());
+    }
 }

@@ -18,7 +18,8 @@ public class PlayList {
 	}
 	
 	public void addSong(Song song) {
-		songList.add(song);
+		if(!songList.contains(song))
+			songList.add(song);
 	}
 	public void removeSong(Song song) {
 		songList.remove(song);
