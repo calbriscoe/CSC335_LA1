@@ -21,6 +21,14 @@ public class PlayList {
 		this.songList = (ArrayList<Song>) playlist.getSongs().clone();
 	}
 	
+	public void removeSong(String name) {
+		for(int i = songList.size() - 1; i >=0; i--) {
+			if(songList.get(i).getName().equals(name))
+				songList.remove(i);
+		}
+	}
+	
+	
 	public void addSong(Song song) {
 		if(!songList.contains(song))
 			songList.add(song);
@@ -52,6 +60,12 @@ public class PlayList {
 	public int numSongs() {
 		return this.songList.size();
 	}
-	
+	public boolean hasSong(String name) {
+		for (Song song : songList) {
+			if(song.getName().equals(name))
+				return true;
+		}
+		return false;
+	}
 	
 }

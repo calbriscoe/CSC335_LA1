@@ -19,6 +19,7 @@ public class LibraryModel {
 		this.albumList = new ArrayList<Album>();
 	}
 
+	
 	public boolean favoriteSong(String songName) {
 		boolean returnval = false;
 		for (Song s : library) {
@@ -114,6 +115,17 @@ public class LibraryModel {
 		}
 		return returnList;
 	}
+	
+	public boolean rateSongTitle(String title, int rating) {
+		boolean returnVal = false;
+		for (Song s : library) {
+			if (s.getName().equals(title)) {
+				s.setRating(rating);
+				returnVal = true;
+			}
+		}
+		return returnVal;
+	}
 
 	public ArrayList<Song> searchSongArtist(String artist) {
 		ArrayList<Song> returnList = new ArrayList<Song>();
@@ -159,13 +171,10 @@ public class LibraryModel {
 		return returnList;
 	}
 	
-	public void removeSongs(String name) {
-		for (PlayList playlist : this.playList) {
-			for (Song songs : playlist.getSongs()) {
-				if (songs.getName().equals(name)) {
-					playlist.getSongs().remove(songs);
-				}
-			}
+	public void removeSongsByName(String name) {
+		for(int i = library.size() - 1; i >=0; i--) {
+			if(library.get(i).getName().equals(name))
+				library.remove(i);
 		}
 	}
 

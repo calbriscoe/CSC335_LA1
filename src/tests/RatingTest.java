@@ -10,13 +10,13 @@ class RatingTest {
 
     @Test
     void getRatingTest() {
-        assertEquals(Rating.None, Rating.getRating(0));
-        assertEquals(Rating.One, Rating.getRating(1));
-        assertEquals(Rating.Two, Rating.getRating(2));
-        assertEquals(Rating.Three, Rating.getRating(3));
-        assertEquals(Rating.Four, Rating.getRating(4));
-        assertEquals(Rating.Five, Rating.getRating(5));
-        assertEquals(Rating.Five, Rating.getRating(10));
+        assertEquals(Rating.None, Rating.setRating(0));
+        assertEquals(Rating.One, Rating.setRating(1));
+        assertEquals(Rating.Two, Rating.setRating(2));
+        assertEquals(Rating.Three, Rating.setRating(3));
+        assertEquals(Rating.Four, Rating.setRating(4));
+        assertEquals(Rating.Five, Rating.setRating(5));
+        assertEquals(Rating.Five, Rating.setRating(10));
     }
 
 }

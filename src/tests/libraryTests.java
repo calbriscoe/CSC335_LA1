@@ -14,22 +14,22 @@ class libraryTests {
 
 	LibraryModel library = new LibraryModel();
 
-	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", 2021);
-	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", 2017);
-	Song song3 = new Song("Survival Tactics", "Joey Bada$$", "Hip-Hop", 2012);
-	Song song4 = new Song("Telephones", "Vacations", "Indie", 2018);
-	Song song5 = new Song("Magnetic", "ILLIT", "K-Pop", 2024);
+	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", "2021");
+	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", "2017");
+	Song song3 = new Song("Survival Tactics", "Joey Bada$$", "Hip-Hop", "2012");
+	Song song4 = new Song("Telephones", "Vacations", "Indie", "2018");
+	Song song5 = new Song("Magnetic", "ILLIT", "K-Pop", "2024");
 
-	Song song6 = new Song("Parking Lots", "Plums", "Indie", 2015);
-	Song song7 = new Song("Julia Gloria", "Plums", "Indie", 2015);
-	Song song8 = new Song("Jen", "Plums", "Indie", 2015);
-	Song song9 = new Song("Lounger", "Plums", "Indie", 2015);
-	Song song10 = new Song("Fine Madeline", "Plums", "Indie", 2015);
-	Song song11 = new Song("Room Song", "Plums", "Indie", 2015);
-	Song song12 = new Song("They Love Me They Love Me", "Plums", "Indie", 2015);
+	Song song6 = new Song("Parking Lots", "Plums", "Indie", "2015");
+	Song song7 = new Song("Julia Gloria", "Plums", "Indie", "2015");
+	Song song8 = new Song("Jen", "Plums", "Indie", "2015");
+	Song song9 = new Song("Lounger", "Plums", "Indie", "2015");
+	Song song10 = new Song("Fine Madeline", "Plums", "Indie", "2015");
+	Song song11 = new Song("Room Song", "Plums", "Indie", "2015");
+	Song song12 = new Song("They Love Me They Love Me", "Plums", "Indie", "2015");
 
-	Album album1 = new Album("Jen", "Plums", "Indie", 2015);
-	Album album2 = new Album("Summer Break Mixtape", "No Vacation", "Indie", 2015);
+	Album album1 = new Album("Jen", "Plums");
+	Album album2 = new Album("Summer Break Mixtape", "No Vacation");
 
 	@Test
 	void testEmpty() {
@@ -134,7 +134,7 @@ class libraryTests {
 	void removeSongTest() {
 		library.addSongToLib(song1);
 		library.addSongToLib(song2);
-		library.removeSongbyName("Waltzing Back");
+		library.removeSongsByName("Waltzing Back");;
 		assertEquals(library.getSongs().size(),1);
 		assertTrue(!library.getSongs().contains(song1));
 	}
@@ -147,7 +147,7 @@ class libraryTests {
 	}
 	@Test
 	void removeFromEmptyLib() {
-		library.removeSongbyName("Hello");
+		library.removeSongsByName("Waltzing Back");;
 		assertTrue(library.getSongs().isEmpty());
 	}
 	@Test
