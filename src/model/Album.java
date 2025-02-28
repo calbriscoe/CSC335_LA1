@@ -11,7 +11,6 @@ public class Album {
 	private String author;
 	private String genre;
 	private int year;
-	// -------------
 	
 	// Add way to read in files 
 	public Album(String name, String author) {
@@ -21,22 +20,17 @@ public class Album {
 	}
 	
 	public Album(Album album) {
-		this.songs = album.songs;
+		this.songs = (ArrayList<Song>) album.songs.clone();
 		this.name = album.name;
 		this.author = album.author;
 	}
-
 	// Searches for a Song within album
-	public ArrayList<String> searchSong(String name) {
-		ArrayList<String> songList = new ArrayList<String>();
+	public ArrayList<Song> searchSong(String name) {
+		ArrayList<Song> songList = new ArrayList<Song>();
 		
-		// In case multiple same named songs in one Album
-		for (int i = 0; i < songs.size(); i++) {
-			if (songs.get(i).getName().equals(name)){
-				songList.add(songs.get(i).getInfo());
-			} else if (songs.get(i).getAuthor().equals(name)){
-				songList.add(songs.get(i).getInfo());
-			}
+		for(Song s : songs) {
+			if(s.getName().equals(name))
+				songList.add(new Song(s));
 		}
 		return songList;
 	}
@@ -51,6 +45,9 @@ public class Album {
 	        String genre  = infoArr[2];
 	        String year   = infoArr[3];
 	        
+	        this.year = Integer.valueOf(year);
+	        this.genre = genre;
+	        
 	        while (myReader.hasNextLine()) {
 	        	String data = myReader.nextLine();
 	        	songs.add(new Song(data, author, genre, year));
@@ -61,7 +58,6 @@ public class Album {
 	    		e.printStackTrace();
 	    	}
 	}
-	
 	
 	//Basic Getters
 	public String getName() {
@@ -80,20 +76,29 @@ public class Album {
 		String info = this.name + " by " + this.author;
 		return info;
 	}
+	public String getFullInfo() {
+		String info = this.name + " by " + this.author + " created in " + this.year +". Genre: " + this.genre;
+		return info;
+	}
 	public ArrayList<Song> getSongs() {
-		// Is this a escaping references?
 		ArrayList<Song> temp = (ArrayList<Song>) songs.clone();
 		return temp;
 	}
-	@Override
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) 
         	return true;
         if (o == null || this.getClass() != o.getClass()) 
         	return false;
         Album album = (Album) o;
-        	return year == album.getYear() && name.equals(album.name) && 
+        	return name.equals(album.name) && 
         			author.equals(author) &&
-        			album.getGenre().equals(genre) && album.getSongs().equals(this.getSongs());
+        			album.getSongs().equals(this.getSongs());
     }
+
+	public void addSong(Song song) {
+		if(!songs.contains(song))
+			songs.add(song);
+	}
 }

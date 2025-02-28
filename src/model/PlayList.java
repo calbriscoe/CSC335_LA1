@@ -26,12 +26,15 @@ public class PlayList {
 			songList.add(song);
 	}
 	public void addSong(ArrayList<Song> songs) {
+		if (songs == null) { return;}
 		for (Song song : songs) {
 			songList.add(song);
 		}
 	}
-	public void removeSong(Song song) {
-		songList.remove(song);
+	public void removeSong(ArrayList<Song> song) {
+		for (Song son : song) {
+			songList.remove(son);
+		}
 	}
 	
 	public String getName() {

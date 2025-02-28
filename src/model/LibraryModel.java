@@ -19,12 +19,15 @@ public class LibraryModel {
 		this.albumList = new ArrayList<Album>();
 	}
 
-	public void favoriteSong(String songName) {
+	public boolean favoriteSong(String songName) {
+		boolean returnval = false;
 		for (Song s : library) {
 			if (s.getName().equals(songName)) {
 				s.setFavorite();
+				returnval = true;
 			}
 		}
+		return returnval;
 	}
     
 	public void addPlayList(ArrayList<Album> albums) {
@@ -47,17 +50,17 @@ public class LibraryModel {
 	}
 	
 	// Adds song from Store to playlist
-	public void addSongToPlayList(String playName, String songName, MusicStore store) {
-		for (PlayList playList : this.playList) {
-			if (playList.getName().equals(playName)) {
-				playList = getPlayList(playName);
-				playList.addSong(store.getSong(songName));
+	public void addSongToPlayList(String playName, String songName) {
+		for (PlayList playlist : this.playList) {
+			if (playlist.getName().equals(playName)) {
+				playlist = getPlayList(playName);
+				playlist.addSong(musicStore.getSong(songName));
 				return;
 			}
 		}
-		PlayList playList = new PlayList(playName);
-		this.playList.add(playList);
-		playList.addSong(musicStore.getSong(songName));
+		PlayList playlist = new PlayList(playName);
+		playlist.addSong(musicStore.getSong(songName));
+		this.playList.add(playlist);
 	}
     
 	public void addSongToLib(Song s) {
@@ -65,9 +68,25 @@ public class LibraryModel {
 			library.add(s);
 	}
 
+	public void addAlbum(ArrayList<Album> album) {
+		for (Album a : album) {
+			this.addAlbum(a);
+		}
+	}
 	public void addAlbum(Album a) {
 		if(!albumList.contains(a))
 		  albumList.add(a);
+	}
+	public ArrayList<Album> searchAbum(String name){
+		ArrayList<Album> tempList = new ArrayList<Album>();
+		for (Album album : this.albumList) {
+			if (album.getAuthor().equals(name)) {
+				tempList.add(album);
+			} else if (album.getName().equals(name)) {
+				tempList.add(album);
+			}
+		}
+		return tempList;
 	}
 
 	public void createNewPlayList(String name) {
@@ -76,6 +95,9 @@ public class LibraryModel {
 	}
 
 	public void addToPlayList(String playlistName, Song s) {
+		if(!library.contains(s)) {
+			library.add(s);
+		}
 		for (PlayList playlist : playList) {
 			if (playlist.getName().equals(playlistName)) {
 				playlist.addSong(s);
