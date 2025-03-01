@@ -208,7 +208,8 @@ public class Main {
                 	System.out.println("\nEnter name or artist:\n");
                 	String nameAlbum = scanner.nextLine();
                 	System.out.println("Found: \n" + store.albumInfo(nameAlbum));
-                	user.addAlbum(store.getAlbum(nameAlbum));
+                	if(!store.albumInfo(nameAlbum).equals("Album not found!"))
+                		user.addAlbum(store.getAlbum(nameAlbum));
                     break;
                 case 2:
                 	
@@ -252,7 +253,6 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-        library(scanner, store, user);
         
 	}
 	public static void playlists(Scanner scanner, MusicStore store, LibraryModel user) {
@@ -284,12 +284,12 @@ public class Main {
                 	String namePlayList = scanner.nextLine();
                 	System.out.println("Found: \n" + store.songInfo(nameSong));
                 	
-                	if(user.getPlayList(namePlayList) != null && store.getSong(nameSong).size() != 0)
+                	if(user.getPlayList(namePlayList) != null && store.getSong(nameSong) != null)
                 		user.addSongToPlayList(namePlayList,nameSong);
                 	else if(user.getPlayList(namePlayList) != null)
                 		System.out.println("No playlist found");
                 	else
-                		System.out.println("No song found");
+                		System.out.println("No song or playlist found");
                     break;
                 case 3:
                 	System.out.println("Enter playlist name:\n");
@@ -335,9 +335,7 @@ public class Main {
                     // Invalid choice
                     System.out.println("Invalid choice. Please try again.");
             }
-        }
-        library(scanner, store, user);
-        
+        }        
 	}
 	public static void songLibrary(Scanner scanner, MusicStore store, LibraryModel user) {
 		System.out.println("\nWelcome to your Song Library!");
@@ -385,8 +383,9 @@ public class Main {
                 	
                 	if(user.searchSongTitle(nameSongSearch).isEmpty())
                 		System.out.println("No Songs Found with That Name!");
+                	else {
                 	for(Song s : user.searchSongTitle(nameSongSearch)) {
-                		System.out.println(s.getInfo());
+                		System.out.println(s.getInfo());}
                 	}
                     break;
                 case 4:
@@ -423,6 +422,7 @@ public class Main {
                 	String nameSongRate = scanner.nextLine();
                 	System.out.println("Enter a rating:");
                 	int rate = scanner.nextInt();
+                	scanner.nextLine();
                 	if(user.rateSongTitle(nameSongRate, rate))
                 		System.out.println("Rated!");
                 	else
@@ -435,8 +435,6 @@ public class Main {
                     // Invalid choice
                     System.out.println("Invalid choice. Please try again.");
             }
-        }
-    	library(scanner, store, user);
-        
+        }        
 	}	
 }
