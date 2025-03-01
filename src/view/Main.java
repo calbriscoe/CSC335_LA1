@@ -92,6 +92,10 @@ public class Main {
                 	String nameAlbum = scanner.nextLine();
                 	System.out.println("Let's see:");
                 	//System.out.println(store.albumInfo(nameAlbum));
+                	if (store.getAlbum(nameAlbum) == null || store.getAlbum(nameAlbum).isEmpty()) {
+                		System.out.println("No album found!");
+                	}
+                	else {
                 	for (Album album : store.getAlbum(nameAlbum)) {
                 		System.out.println(album.getInfo());
                 		System.out.println("-Songs within Album:");
@@ -100,7 +104,7 @@ public class Main {
                 		}
                 		System.out.println("--- End of Album ---");
                 	}
-                	System.out.println();
+                	System.out.println();}
                     break;
                 case 2:
                 	System.out.println("\nEnter name:\n");
