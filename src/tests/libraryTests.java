@@ -2,17 +2,22 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import model.Album;
 import model.LibraryModel;
+import model.MusicStore;
 import model.PlayList;
 import model.Song;
 
 class libraryTests {
 
 	LibraryModel library = new LibraryModel();
+
+    File file = new File("src/albums/19_Adele.txt");
+    MusicStore store = new MusicStore();
 
 	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", "2021");
 	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", "2017");
@@ -39,10 +44,44 @@ class libraryTests {
 		assertTrue(library.getPlayListList().isEmpty());
 		assertTrue(library.getPlayListList().isEmpty());
 	}
-
+	@Test
+	void rateSongTest() {
+		library.addSongToLib(song1);
+		assertTrue(library.rateSongTitle("Waltzing Back", 1));
+	}	
+	
+	@Test
+	void addPlayListTest() {
+		ArrayList<Album> test = new ArrayList<Album>();
+		test.add(album1);
+		library.addPlayList(test);
+		assertEquals(library.getPlayListList().size(),1);
+	}
+	
 	@Test
 	void testCreateNewPlayList() {
 		library.createNewPlayList("Test");
+		assertEquals(library.getPlayListList().size(), 1);
+	}
+	
+	@Test
+	void testSearchAlbum() {
+		library.addAlbum(album1);
+		assertEquals(library.searchAbum("Jen").size(), 1);
+		assertEquals(library.searchAbum("saf").size(), 0);
+	}
+	
+	@Test
+	void getPLTEsTS() {
+		library.createNewPlayList("Test");
+		store.addAlbum(file);
+	    library.musicStore = store;
+		library.addSongToPlayList("Test", "Tired");
+		assertTrue(library.getPlayListList().get(0).hasSong("Tired"));
+	}
+	@Test
+	void testCreatelayList() {
+		library.createPlayList("Test");
 		assertEquals(library.getPlayListList().size(), 1);
 	}
 

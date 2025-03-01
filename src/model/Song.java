@@ -68,8 +68,8 @@ public class Song {
         if (o == null || this.getClass() != o.getClass()) 
         	return false;
         Song song = (Song) o;
-        	return year == song.getYear() && name.equals(song.name) && 
-        			song.getFavorite() == favorite && author.equals(author) &&
+        	return year.equals(song.getYear()) && name.equals(song.name) && 
+        			song.getFavorite() == favorite && song.getAuthor().equals(author) &&
         			song.genre.equals(genre);
     }
 }

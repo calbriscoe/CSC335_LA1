@@ -84,6 +84,7 @@ class playListTests {
 		playlist.addSong(song1);
 		playlist.addSong(song2);
 		playlist.addSong(song3);
+		assertTrue(playlist.hasSong("Waltzing Back"));
 		assertEquals(3, playlist.numSongs());
 	}
 }
