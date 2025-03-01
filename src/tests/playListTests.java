@@ -11,11 +11,11 @@ import model.Song;
 
 class playListTests {
 
-	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", 2021);
-	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", 2017);
-	Song song3 = new Song("Survival Tactics", "Joey Bada$$", "Hip-Hop", 2012);
-	Song song4 = new Song("Telephones", "Vacations", "Indie", 2018);
-	Song song5 = new Song("Magnetic", "ILLIT", "K-Pop", 2024);
+	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", "2021");
+	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", ":2017");
+	Song song3 = new Song("Survival Tactics", "Joey Bada$$", "Hip-Hop", "2012");
+	Song song4 = new Song("Telephones", "Vacations", "Indie", "2018");
+	Song song5 = new Song("Magnetic", "ILLIT", "K-Pop", "2024");
 	
 	PlayList playlist = new PlayList("Test");
 	
@@ -39,7 +39,7 @@ class playListTests {
 	void removeSongTest() {
 		playlist.addSong(song1);
 		playlist.addSong(song2);
-		playlist.removeSong(song1);
+		playlist.removeSong(song1.getName());
 		assertEquals(playlist.getSongs().size(), 1);
 		assertEquals(playlist.getSongs().indexOf(song2),0);
 	}
@@ -59,10 +59,32 @@ class playListTests {
 		assertEquals(oracle,playlist.getSongs());
 	}
 	@Test
+	void addmultipleTest() {
+		ArrayList<Song> oracle = new ArrayList<Song>();
+		oracle.add(song1);
+		oracle.add(song2);
+		oracle.add(song3);
+		playlist.addSong(oracle);
+		assertEquals(oracle,playlist.getSongs());
+	}
+	@Test
+	void removemultipleTest() {
+		ArrayList<Song> oracle = new ArrayList<Song>();
+		oracle.add(song1);
+		oracle.add(song2);
+		oracle.add(song3);
+		playlist.addSong(song1);
+		playlist.addSong(song2);
+		playlist.addSong(song3);
+		playlist.removeSong(oracle);
+		assertEquals(new ArrayList<Song>(),playlist.getSongs());
+	}
+	@Test
 	void numSongs() {
 		playlist.addSong(song1);
 		playlist.addSong(song2);
 		playlist.addSong(song3);
+		assertTrue(playlist.hasSong("Waltzing Back"));
 		assertEquals(3, playlist.numSongs());
 	}
 }

@@ -10,10 +10,8 @@ import java.util.ArrayList;
 
 public class MusicStore {
 
-private ArrayList<Album> albumList;
+public ArrayList<Album> albumList;
 	
-	
-private ArrayList<Album> albumList;
 
 
 public MusicStore() {

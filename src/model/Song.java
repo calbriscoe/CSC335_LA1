@@ -23,8 +23,8 @@ public class Song {
 		this.author = song.author;
 		this.genre = song.genre;
 		this.year = song.year;
-		this.favorite = false;
-		this.rating = Rating.None;
+		this.favorite = song.favorite;
+		this.rating = song.rating;
 	}
 	
 	// Returns a string of all the Songs information
@@ -36,7 +36,7 @@ public class Song {
 		this.favorite = !this.favorite;
 	}
 	public void setRating(int rating) {
-		this.rating.setRating(rating);
+		this.rating = Rating.setRating(rating);
 		if (this.rating == Rating.Five) {
 			this.favorite = true;
 		}
@@ -68,8 +68,8 @@ public class Song {
         if (o == null || this.getClass() != o.getClass()) 
         	return false;
         Song song = (Song) o;
-        	return year == song.getYear() && name.equals(song.name) && 
-        			song.getFavorite() == favorite && author.equals(author) &&
+        	return year.equals(song.getYear()) && name.equals(song.name) && 
+        			song.getFavorite() == favorite && song.getAuthor().equals(author) &&
         			song.genre.equals(genre);
     }
 }

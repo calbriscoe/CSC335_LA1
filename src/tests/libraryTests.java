@@ -2,11 +2,13 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import model.Album;
 import model.LibraryModel;
+import model.MusicStore;
 import model.PlayList;
 import model.Song;
 
@@ -14,22 +16,25 @@ class libraryTests {
 
 	LibraryModel library = new LibraryModel();
 
-	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", 2021);
-	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", 2017);
-	Song song3 = new Song("Survival Tactics", "Joey Bada$$", "Hip-Hop", 2012);
-	Song song4 = new Song("Telephones", "Vacations", "Indie", 2018);
-	Song song5 = new Song("Magnetic", "ILLIT", "K-Pop", 2024);
+    File file = new File("src/albums/19_Adele.txt");
+    MusicStore store = new MusicStore();
 
-	Song song6 = new Song("Parking Lots", "Plums", "Indie", 2015);
-	Song song7 = new Song("Julia Gloria", "Plums", "Indie", 2015);
-	Song song8 = new Song("Jen", "Plums", "Indie", 2015);
-	Song song9 = new Song("Lounger", "Plums", "Indie", 2015);
-	Song song10 = new Song("Fine Madeline", "Plums", "Indie", 2015);
-	Song song11 = new Song("Room Song", "Plums", "Indie", 2015);
-	Song song12 = new Song("They Love Me They Love Me", "Plums", "Indie", 2015);
+	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", "2021");
+	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", "2017");
+	Song song3 = new Song("Survival Tactics", "Joey Bada$$", "Hip-Hop", "2012");
+	Song song4 = new Song("Telephones", "Vacations", "Indie", "2018");
+	Song song5 = new Song("Magnetic", "ILLIT", "K-Pop", "2024");
 
-	Album album1 = new Album("Jen", "Plums", "Indie", 2015);
-	Album album2 = new Album("Summer Break Mixtape", "No Vacation", "Indie", 2015);
+	Song song6 = new Song("Parking Lots", "Plums", "Indie", "2015");
+	Song song7 = new Song("Julia Gloria", "Plums", "Indie", "2015");
+	Song song8 = new Song("Jen", "Plums", "Indie", "2015");
+	Song song9 = new Song("Lounger", "Plums", "Indie", "2015");
+	Song song10 = new Song("Fine Madeline", "Plums", "Indie", "2015");
+	Song song11 = new Song("Room Song", "Plums", "Indie", "2015");
+	Song song12 = new Song("They Love Me They Love Me", "Plums", "Indie", "2015");
+
+	Album album1 = new Album("Jen", "Plums");
+	Album album2 = new Album("Summer Break Mixtape", "No Vacation");
 
 	@Test
 	void testEmpty() {
@@ -39,10 +44,44 @@ class libraryTests {
 		assertTrue(library.getPlayListList().isEmpty());
 		assertTrue(library.getPlayListList().isEmpty());
 	}
-
+	@Test
+	void rateSongTest() {
+		library.addSongToLib(song1);
+		assertTrue(library.rateSongTitle("Waltzing Back", 1));
+	}	
+	
+	@Test
+	void addPlayListTest() {
+		ArrayList<Album> test = new ArrayList<Album>();
+		test.add(album1);
+		library.addPlayList(test);
+		assertEquals(library.getPlayListList().size(),1);
+	}
+	
 	@Test
 	void testCreateNewPlayList() {
 		library.createNewPlayList("Test");
+		assertEquals(library.getPlayListList().size(), 1);
+	}
+	
+	@Test
+	void testSearchAlbum() {
+		library.addAlbum(album1);
+		assertEquals(library.searchAbum("Jen").size(), 1);
+		assertEquals(library.searchAbum("saf").size(), 0);
+	}
+	
+	@Test
+	void getPLTEsTS() {
+		library.createNewPlayList("Test");
+		store.addAlbum(file);
+	    library.musicStore = store;
+		library.addSongToPlayList("Test", "Tired");
+		assertTrue(library.getPlayListList().get(0).hasSong("Tired"));
+	}
+	@Test
+	void testCreatelayList() {
+		library.createPlayList("Test");
 		assertEquals(library.getPlayListList().size(), 1);
 	}
 
@@ -134,7 +173,7 @@ class libraryTests {
 	void removeSongTest() {
 		library.addSongToLib(song1);
 		library.addSongToLib(song2);
-		library.removeSongbyName("Waltzing Back");
+		library.removeSongsByName("Waltzing Back");;
 		assertEquals(library.getSongs().size(),1);
 		assertTrue(!library.getSongs().contains(song1));
 	}
@@ -147,7 +186,7 @@ class libraryTests {
 	}
 	@Test
 	void removeFromEmptyLib() {
-		library.removeSongbyName("Hello");
+		library.removeSongsByName("Waltzing Back");;
 		assertTrue(library.getSongs().isEmpty());
 	}
 	@Test

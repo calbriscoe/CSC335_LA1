@@ -8,7 +8,7 @@ import model.*;
 
 class songsTest {
 
-	Song song = new Song("Yam Yam", "No Vacation", "Indie", 2017);
+	Song song = new Song("Yam Yam", "No Vacation", "Indie", "2017");
 	
 	Song song1 = new Song(song);
 	
@@ -40,8 +40,14 @@ class songsTest {
 		assertEquals("Indie", song.getGenre());
 	}
 	@Test
+	void setRating() {
+		song.setRating(5);
+		assertTrue(song.getFavorite());
+		assertEquals(song.getRating(), Rating.Five);
+	}
+	@Test
 	void getYearTest() {
-		assertEquals(2017, song.getYear());
+		assertEquals("2017", song.getYear());
 	}
 	@Test
 	void equalsTest01() {
@@ -52,5 +58,9 @@ class songsTest {
 	void equalsTest02() {
 		PlayList a = new PlayList("a");
 		assertFalse(song1.equals(a));
+	}
+	@Test
+	void equalsTest03() {
+		assertTrue(song1.equals(song1));
 	}
 }
