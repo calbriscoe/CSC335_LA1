@@ -205,7 +205,6 @@ public class LibraryModel {
 		}
 	}
 	
-//TODO -> Add 'Update frequencyList'
 	public void createFrqList() {
 		frequencyList.clear();
 		Song maxSong = null;
