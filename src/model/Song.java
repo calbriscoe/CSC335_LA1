@@ -72,4 +72,17 @@ public class Song {
         			song.getFavorite() == favorite && song.getAuthor().equals(author) &&
         			song.genre.equals(genre);
     }
+    @Override
+    public int hashCode() {
+    	int result = 0;
+    	String word = this.getName();
+    	for (int i = 0; i < word.length(); i++) {
+    		result+= word.charAt(i)-'a';
+    	}
+    	word = this.getAuthor();
+    	for (int i = 0; i < word.length(); i++) {
+    		result+= word.charAt(i)-'a';
+    	}
+        return result/10;
+    }
 }

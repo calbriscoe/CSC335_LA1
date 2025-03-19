@@ -229,6 +229,7 @@ public class LibraryModel {
 	
 	public String getFrqListToString() {
 		String result = "";
+		this.createFrqList();
 		for (Song s : frequencyList) {
 			result+=s.getName() + " : " + frequency.get(s)+"\n";
 		}

@@ -144,10 +144,11 @@ public class Main {
             System.out.println("2. Manage PlayLists");
             System.out.println("3. Manage Song Library");
             System.out.println("4. Search for Song or Album");
-            System.out.println("5. Return");
+            System.out.println("5. Play and track Songs");
+            System.out.println("6. Return");
             
             // Get the user's choice
-            System.out.print("Enter your choice (1, 2, 3, 4 or 5): ");
+            System.out.print("Enter your choice (1, 2, 3, 4, 5 or 6): ");
             int choice = scanner.nextInt();
             scanner.nextLine();  // Consume the newline character left by nextInt()
 
@@ -175,7 +176,10 @@ public class Main {
                 		System.out.println(store.songInfo(name));
                     break;
                 case 5:
-                    // Option 3: Exit
+                	songPlay(scanner, store, user);
+                    break;
+                case 6:
+                    // Option 6: Exit
                     System.out.println("Exiting the Store");
                     running = false;
                     break;
@@ -466,7 +470,7 @@ public class Main {
                 		}
                 		System.out.println("Enter your choice (1 - "+ temp.size() +"): ");
                         int pickChoice = scanner.nextInt();
-                        if (pickChoice < 0 || pickChoice >= temp.size()) {
+                        if (pickChoice <= 0 || pickChoice > temp.size()) {
                         	System.out.println("Not an option!");
                         	break;
                         } else {
@@ -480,12 +484,17 @@ public class Main {
                 case 2:
                 	// Option 2: List 10 songs based on how recent
                 	System.out.println("Recently played songs: ");
-                	
+                	int i = 1;
+                	for (Song s : user.getRecent()) {
+                		System.out.println(i + " - "+s.getName());
+                		i++;
+                	}
+                	System.out.println();
                     break;
                 case 3:
                 	// Option 3: List 10 songs with counts based on how plays
                 	System.out.println("Frequently played songs: ");
-                	
+                	System.out.print(user.getFrqListToString());
                 	break;
                 case 4:
                 	running = false;

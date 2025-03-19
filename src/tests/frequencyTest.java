@@ -180,6 +180,33 @@ public class frequencyTest {
 	}
 	
 	@Test
+	void testFrequnencyListSmall() {	
+		assertTrue((library.getFrequency().isEmpty()));
+		library.playSong(song1);
+		library.playSong(song2);
+		
+		library.createFrqList();
+		System.out.print(library.getFrqListToString());
+		assertTrue(library.getFrequencyList().size()==2);
+		
+		
+		System.out.println("-------");
+		library.playSong(song2);
+		
+		library.createFrqList();
+		System.out.print(library.getFrqListToString());
+		assertTrue(library.getFrequencyList().size()==2);
+		
+		System.out.println("-------");
+		library.playSong(song1);
+		library.playSong(song1);
+		
+		library.createFrqList();
+		System.out.print(library.getFrqListToString());
+		assertTrue(library.getFrequencyList().size()==2);
+	}
+	
+	@Test
 	void testFrequencyListFullString() {
 		/* Testing if it printed the string properly, mostly a visual thing
 	     *  and not assert-able. 
