@@ -437,4 +437,63 @@ public class Main {
             }
         }        
 	}	
+	public static void songPlay(Scanner scanner, MusicStore store, LibraryModel user) {
+		System.out.println("\nWelcome to manage songs!");
+		boolean running = true;
+        while (running) {
+            System.out.println("1. Play a Song!");
+            System.out.println("2. Recent Songs");
+            System.out.println("3. Frequent Songs");
+            System.out.println("4. Return");
+            
+            // Get the user's choice
+            System.out.print("Enter your choice (1, 2, 3 or 4): ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline character left by nextInt()
+
+            switch (choice) {
+                case 1:
+                    // Option 1: 'Play' a song
+                	System.out.println("Pick a song to play: (Enter Song name)");
+                	String nameSongSearch = scanner.nextLine();
+                	
+                	if(user.searchSongTitle(nameSongSearch).isEmpty())
+                		System.out.println("No Songs Found with That Name!");
+                	else {
+                		ArrayList<Song> temp = user.searchSongTitle(nameSongSearch);
+                		for(Song s : temp) {
+                			System.out.println(s.getInfo());
+                		}
+                		System.out.println("Enter your choice (1 - "+ temp.size() +"): ");
+                        int pickChoice = scanner.nextInt();
+                        if (pickChoice < 0 || pickChoice >= temp.size()) {
+                        	System.out.println("Not an option!");
+                        	break;
+                        } else {
+                        	user.playSong(temp.get(pickChoice-1));
+                        	System.out.println(temp.get(pickChoice-1).getName()+" played");
+                        }
+                        
+                	}
+                	
+                    break;
+                case 2:
+                	// Option 2: List 10 songs based on how recent
+                	System.out.println("Recently played songs: ");
+                	
+                    break;
+                case 3:
+                	// Option 3: List 10 songs with counts based on how plays
+                	System.out.println("Frequently played songs: ");
+                	
+                	break;
+                case 4:
+                	running = false;
+                	break;
+                default:
+                    // Invalid choice
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+	}
 }

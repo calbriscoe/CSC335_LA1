@@ -2,7 +2,10 @@ package model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class LibraryModel {
@@ -10,6 +13,9 @@ public class LibraryModel {
 	private ArrayList<Song> library;
 	private ArrayList<PlayList> playList;
 	private ArrayList<Album> albumList; // Specs require this, bit repetitive
+	private ArrayList<Song> recentList;
+	private HashMap<Song, Integer> frequency;
+	private ArrayList<Song> frequencyList;
 	public  MusicStore musicStore;      
 	// Is the music store public or should it be built in Library?
 	
@@ -17,6 +23,9 @@ public class LibraryModel {
 		this.library = new ArrayList<Song>();
 		this.playList = new ArrayList<PlayList>();
 		this.albumList = new ArrayList<Album>();
+		this.recentList = new ArrayList<Song>();
+		this.frequency = new HashMap<Song, Integer>();
+		this.frequencyList = new ArrayList<Song>();
 	}
 
 	
@@ -178,6 +187,54 @@ public class LibraryModel {
 		}
 	}
 
+	public void playSong(Song s) {
+		if (recentList.contains(s)) {
+			recentList.remove(s);
+			recentList.addFirst(s);
+		} else {
+			recentList.addFirst(s);
+		}
+		
+		if (recentList.size() > 10) {
+			recentList.remove(10);
+		}
+		if (!frequency.containsKey(s)){
+			frequency.put(s, 1);
+		} else {
+			frequency.put(s, frequency.get(s)+1);
+		}
+	}
+	
+//TODO -> Add 'Update frequencyList'
+	public void createFrqList() {
+		frequencyList.clear();
+		Song maxSong = null;
+		
+		int i = 0;
+		while (i < frequency.size() && i < 10) {
+			int  maxInt = -1;
+			for (Song s : frequency.keySet()) {
+				if (!frequencyList.contains(s) && frequency.get(s) >= maxInt) {
+					maxSong = s;
+					maxInt = frequency.get(s);
+				}
+			}
+		
+			if (maxSong != null) {
+				frequencyList.add(maxSong);
+			}
+			i++;
+		}
+	}
+	
+	public String getFrqListToString() {
+		String result = "";
+		for (Song s : frequencyList) {
+			result+=s.getName() + " : " + frequency.get(s)+"\n";
+		}
+		return result;
+	}
+
 	// GETTERS AND SETTERS
 	public ArrayList<Song> getFavorites() {
 		ArrayList<Song> returnList = new ArrayList<Song>();
@@ -227,5 +284,22 @@ public class LibraryModel {
 			returnList.add(p.getName());
 		}
 		return returnList;
+	}
+	
+	public ArrayList<Song> getRecent(){
+		if (this.recentList == null) {
+			return new ArrayList<Song>();
+		}
+		return (ArrayList<Song>) this.recentList.clone();
+	}
+	public HashMap<Song, Integer> getFrequency(){
+		if (this.frequency instanceof HashMap<Song, Integer>) {
+			return (HashMap<Song, Integer>) this.frequency.clone();
+		} else {
+			return null;
+		}
+	}
+	public ArrayList<Song> getFrequencyList() {
+		return (ArrayList<Song>) frequencyList.clone();
 	}
 }
