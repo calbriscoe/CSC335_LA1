@@ -96,6 +96,19 @@ public class Album {
         			author.equals(author) &&
         			album.getSongs().equals(this.getSongs());
     }
+    @Override
+    public int hashCode() {
+    	int result = 0;
+    	String word = this.getName();
+    	for (int i = 0; i < word.length(); i++) {
+    		result+= word.charAt(i)-'a';
+    	}
+    	word = this.getAuthor();
+    	for (int i = 0; i < word.length(); i++) {
+    		result+= word.charAt(i)-'a';
+    	}
+        return result/10;
+    }
 
 	public void addSong(Song song) {
 		if(!songs.contains(song))

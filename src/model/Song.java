@@ -85,4 +85,20 @@ public class Song {
     	}
         return result/10;
     }
+	public int compareToBy(int i, Song b) {
+		// Compare by Names
+		if (i == 0) {
+			return (this.getName().compareTo(b.getName()));
+		// Compare by Author Names
+		} else if (i == 1) {
+			return (this.getAuthor().compareTo(b.getAuthor()));
+		// Compare by Rating
+		} else {
+			// Add rating compare
+			if (this.getRating().toIntValue() > b.getRating().toIntValue()) {
+				return -1;
+			}
+			return 0;
+		}
+	}
 }

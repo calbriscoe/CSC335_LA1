@@ -26,4 +26,16 @@ public enum Rating {
 			return None;
 		}
 	}
+	
+	public int toIntValue() { 
+	    switch (this) { 
+	      case One: return 1; 
+	      case Two: return 2; 
+	      case Three: return 3; 
+	      case Four: return 4; 
+	      case Five: return 5;
+	      case None: return 0;
+	      default: return 0; 
+	    } 
+	  }
 }

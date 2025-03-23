@@ -190,9 +190,9 @@ public class LibraryModel {
 	public void playSong(Song s) {
 		if (recentList.contains(s)) {
 			recentList.remove(s);
-			recentList.addFirst(s);
+			recentList.add(0, s);
 		} else {
-			recentList.addFirst(s);
+			recentList.add(0,s);
 		}
 		
 		if (recentList.size() > 10) {
@@ -251,6 +251,47 @@ public class LibraryModel {
 			deepCopies.add(new Song(s));
 		}
 		return deepCopies;
+	}
+	public ArrayList<Song> getSongsBy(int i){
+		ArrayList<Song> sortedCopy = new ArrayList<Song>();
+		for (Song s : library) {
+			// Empty List
+			if (sortedCopy.size() == 0) {
+				sortedCopy.add(new Song(s));
+			} else {
+				sortHelper(sortedCopy, s, i);
+			} 
+		}
+		return sortedCopy;
+	}
+	public void sortHelper(ArrayList<Song> sorted, Song s, int i) {
+		for (int x = 0; x < sorted.size() ; x++) {
+			int comp = sorted.get(x).compareToBy(i, s);
+			if (comp > -1) {
+				sorted.add(x, new Song(s));
+				return;
+			}
+		}
+		sorted.add(new Song(s));
+	}
+	
+	public void removeSong(Song s) {
+		if (s == null) { return; }
+		for (Song libSong : library) {
+			if (libSong.equals(s)) {
+				library.remove(libSong);
+				return;
+			}
+		}
+	}
+	public void removeAlbum(Album a) {
+		if (a == null) { return; }
+		for (Album userAlbums : albumList) {
+			if (userAlbums.equals(a)) {
+				albumList.remove(userAlbums);
+				return;
+			}
+		}
 	}
 
 	public Set<String> getArtists() {
