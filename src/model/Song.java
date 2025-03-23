@@ -8,8 +8,18 @@ public class Song {
 	private String year;
 	private boolean favorite;
 	private Rating rating;
+	private Album album;
 	
 	
+	public Song(String name, String author, String genre, String year, Album album ) {
+		this.name = name;
+		this.author = author;
+		this.genre = genre;
+		this.year = year;
+		this.favorite = false;
+		this.rating = Rating.None;
+		this.album = album;
+	}
 	public Song(String name, String author, String genre, String year ) {
 		this.name = name;
 		this.author = author;
@@ -17,6 +27,7 @@ public class Song {
 		this.year = year;
 		this.favorite = false;
 		this.rating = Rating.None;
+		this.album = null;
 	}
 	public Song(Song song) {
 		this.name = song.name;
@@ -25,6 +36,7 @@ public class Song {
 		this.year = song.year;
 		this.favorite = song.favorite;
 		this.rating = song.rating;
+		this.album = song.album;
 	}
 	
 	// Returns a string of all the Songs information
@@ -60,6 +72,9 @@ public class Song {
 	}
 	public Rating getRating() {
 		return rating;
+	}
+	public Album getAlbum() {
+		return new Album(this.album);
 	}
     @Override
     public boolean equals(Object o) {

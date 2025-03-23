@@ -50,7 +50,7 @@ public class Album {
 	        
 	        while (myReader.hasNextLine()) {
 	        	String data = myReader.nextLine();
-	        	songs.add(new Song(data, author, genre, year));
+	        	songs.add(new Song(data, author, genre, year, this));
 	        }
 	        myReader.close();
 	    	} catch (Exception e) {

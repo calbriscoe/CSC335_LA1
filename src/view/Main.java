@@ -3,6 +3,7 @@ package view;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import model.Album;
@@ -355,7 +356,23 @@ public class Main {
                 	}
                 	break;
                 case 6:
-                    // Option 3: Exit
+                	System.out.println("Enter playlist name:\n");
+                	String playListSearch = scanner.nextLine();
+                	ArrayList<PlayList> searchResultPlayList = user.searchPlayListName(playListSearch);
+                	if(searchResultPlayList.isEmpty())
+                		System.out.println("No PlayLists Found");
+                	else
+                		for(PlayList p : searchResultPlayList) {
+                			List<Song> tempList = p.shuffleSongs();
+                        	System.out.println("Shuffling "+p.getName()+" Songs: ");
+                        	for (Song s : tempList) {
+                        		System.out.println("\t+" + s.getName());
+                        	}
+                		}
+                	
+                	break;
+                case 7:
+                    // Option 7: Exit
                     System.out.println("Returning to Library Actions");
                     running = false;
                     break;
@@ -395,9 +412,27 @@ public class Main {
                 	if(store.getSong(nameSong) == null)
                 		System.out.println("No song found");
                 	else {
-                	for(Song s : store.getSong(nameSong)) {
+                		for(Song s : store.getSong(nameSong)) {
                 			user.addSongToLib(s);
-                		}}
+                		}
+                	}
+                	System.out.println("More information? Yes or no (1 or 2)");
+                    int moreInfo = scanner.nextInt();
+                    if (moreInfo <= 0 || moreInfo > 2) {
+                    	System.out.println("Not an option!");
+                    	break;
+                    } else {
+                    	if (moreInfo == 1) {
+                    		for(Song s : store.getSong(nameSong)) {
+                    			System.out.println("From album: "+s.getAlbum().getFullInfo());
+                    			if (user.searchAbum(s.getAlbum().getName()).size() > 0) {
+                    				System.out.println("This Album is within the user library");
+                    			} else {
+                    				System.out.println("This Album is not within the user library");
+                    			}
+                    		}
+                    	}
+                    }  
                     break;
                 case 2:
                 	//Remove a song from library
@@ -596,7 +631,11 @@ public class Main {
                 	}
                     break;
                 case 4:
-                	//TODO Random sort 
+                	List<Song> tempList = user.shuffleSongs();
+                	System.out.println("Shuffling Library Songs: ");
+                	for (Song s : tempList) {
+                		System.out.println(" " + s.getName());
+                	}
                 	break;
                 case 5:
                 	running = false;

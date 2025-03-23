@@ -1,6 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.junit.jupiter.api.ClassOrderer.Random;
 
 public class PlayList {
 
@@ -55,6 +59,16 @@ public class PlayList {
 			returnList.add(new Song(s));
 		}
 		return returnList;
+	}
+	
+	public List<Song> shuffleSongs() {
+		List<Song> tempList = new ArrayList<Song>();
+		for (Song s : getSongs()) {
+			tempList.add(s);
+		}
+		java.util.Random rnd = new java.util.Random();
+		Collections.shuffle(tempList, rnd);
+		return tempList;
 	}
 	
 	public int numSongs() {

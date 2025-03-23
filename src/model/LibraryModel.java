@@ -3,8 +3,10 @@ package model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -293,6 +295,16 @@ public class LibraryModel {
 			}
 		}
 	}
+	
+	public List<Song> shuffleSongs() {
+		List<Song> tempList = new ArrayList<Song>();
+		for (Song s : getSongs()) {
+			tempList.add(s);
+		}
+		java.util.Random rnd = new java.util.Random();
+		Collections.shuffle(tempList, rnd);
+		return tempList;
+	}
 
 	public Set<String> getArtists() {
 		Set<String> artists = new HashSet<String>();
@@ -331,7 +343,11 @@ public class LibraryModel {
 		if (this.recentList == null) {
 			return new ArrayList<Song>();
 		}
-		return (ArrayList<Song>) this.recentList.clone();
+		ArrayList<Song> tempList = new ArrayList<Song>();
+		for (Song s : recentList) {
+			tempList.add(new Song(s));
+		}
+		return tempList;
 	}
 	public HashMap<Song, Integer> getFrequency(){
 		if (this.frequency instanceof HashMap<Song, Integer>) {
@@ -341,6 +357,10 @@ public class LibraryModel {
 		}
 	}
 	public ArrayList<Song> getFrequencyList() {
-		return (ArrayList<Song>) frequencyList.clone();
+		ArrayList<Song> tempList = new ArrayList<Song>();
+		for (Song s : frequencyList) {
+			tempList.add(new Song(s));
+		}
+		return tempList;
 	}
 }
