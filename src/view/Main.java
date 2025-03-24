@@ -6,17 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import model.Album;
-import model.LibraryModel;
-import model.MusicStore;
-import model.PlayList;
-import model.Song;
+import model.*;
 
 
 public class Main {
+	
+	private static Users users = new Users();
+	private static User currentUser = null;
+	private static MusicStore store;
+	
 	public static void main(String[] args) {
-		MusicStore store = new MusicStore();
-		LibraryModel user = new LibraryModel();
+		store = new MusicStore();
+		login();
 		
 		// Path of the specific directory 
 	    String directoryPath = "src/albums";
@@ -30,7 +31,6 @@ public class Main {
 	        }
 	    }
 	    
-	    user.musicStore = store;
 	    // User face
 	    Scanner scanner = new Scanner(System.in);
 
@@ -43,7 +43,7 @@ public class Main {
             System.out.println("\nPlease choose an option:");
             System.out.println("1. Search Store");
             System.out.println("2. Search Your Own Library");
-            System.out.println("3. Exit");
+            System.out.println("3. Logout");
             
             // Get the user's choice
             System.out.print("Enter your choice (1, 2, or 3): ");
@@ -57,12 +57,14 @@ public class Main {
                     break;
                 case 2:
                     // Option 2; Brings to own library
-                	library(scanner, store, user);
+                	
+                	library(scanner, store, currentUser);
                     break;
                 case 3:
                     // Option 3: Exit
-                    System.out.println("Exiting the program. Goodbye!");
-                    running = false;
+                    System.out.println("logging out. Goodbye!");
+                    currentUser = null;
+            		login();
                     break;
                 default:
                     // Invalid choice
@@ -72,6 +74,69 @@ public class Main {
         scanner.close();
 	}
 	
+	private static void login() {
+		Scanner scanner = new Scanner(System.in);
+		boolean running = true; 
+        while(running) {
+            System.out.println("1. Sign Up");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
+            
+            // Get the user's choice
+            System.out.print("Enter your choice (1, 2, or 3): ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline character left by nextInt()
+            String username;
+            String password; 
+    		User tempUsr = new User("Temp", "1", store);
+            switch(choice) {
+            	case 1:
+            		System.out.println("Enter Username:");
+            		username = scanner.next();
+            		if(tempUsr.usernameUsed(username)) {
+            			System.out.println("Username Already In use");
+            			break;
+            		}
+            		System.out.println("Password:");
+            		password = scanner.next();
+            		currentUser = new User(username, password, store);
+            		users.addNewUser(currentUser);
+            		running = false;
+            		break;
+            	case 2:
+
+            		System.out.println("\nEnter Username:");
+            		username = scanner.next();
+            		if (tempUsr.usernameUsed(username)) {
+                		System.out.println("\nPassword:");
+                		password = scanner.next();
+                		if(tempUsr.correctPassword(username, password)) {
+                			if(users.userExists(username))
+                				currentUser = users.getUser(username);
+                			else {
+                        		currentUser = new User(username, password, store);
+                        		users.addNewUser(currentUser);
+                			}
+                			running = false;
+                			break;
+                		}
+                		System.out.println("Incorrect password!");
+                		break;
+            		}
+            		else {
+            			System.out.println("Invalid username");
+            		}
+
+            		break;
+            	case 3:
+            		System.exit(0);
+            		break;
+            }
+        }
+		
+		
+	}
+
 	public static void store(Scanner scanner, MusicStore store) {
 		System.out.println("\nWelcome to the store!");
 		boolean running = true;
@@ -137,7 +202,7 @@ public class Main {
         
 	}
 	
-	public static void library(Scanner scanner, MusicStore store, LibraryModel user) {
+	public static void library(Scanner scanner, MusicStore store, User user) {
 		System.out.println("\nWelcome to your library!");
 		boolean running = true;
         while (running) {
@@ -192,7 +257,7 @@ public class Main {
         return;
         
 	}
-	public static void albums(Scanner scanner, MusicStore store, LibraryModel user) {
+	public static void albums(Scanner scanner, MusicStore store, User user) {
 		System.out.println("\nWelcome to your Albums!");
 		boolean running = true;
         while (running) {
@@ -215,17 +280,17 @@ public class Main {
                 	String nameAlbum = scanner.nextLine();
                 	System.out.println("Found: \n" + store.albumInfo(nameAlbum));
                 	if(!store.albumInfo(nameAlbum).equals("Album not found!"))
-                		user.addAlbum(store.getAlbum(nameAlbum));
+                		users.addAlbum(store.getAlbum(nameAlbum), currentUser);
                     break;
                 case 2:
                 	//Remove an album from library
                 	System.out.println("Pick a album to remove: (Enter Album name)");
                 	String nameAlbumRemove = scanner.nextLine();
                 	
-                	if(user.searchSongTitle(nameAlbumRemove).isEmpty())
+                	if(users.searchSongTitle(nameAlbumRemove, currentUser).isEmpty())
                 		System.out.println("No Album Found with That Name!");
                 	else {
-                		ArrayList<Album> temp = user.searchAlbumInfoName(nameAlbumRemove);
+                		ArrayList<Album> temp = users.searchAlbumInfoName(nameAlbumRemove, currentUser);
                 		for(Album s : temp) {
                 			System.out.println(s.getInfo());
                 		}
@@ -235,7 +300,7 @@ public class Main {
                         	System.out.println("Not an option!");
                         	break;
                         } else {
-                        	user.removeAlbum(temp.get(pickChoice-1));;
+                        	users.removeAlbum(temp.get(pickChoice-1), currentUser);;
                         	System.out.println(temp.get(pickChoice-1).getName()+" removed");
                         }  
                 	}
@@ -243,14 +308,14 @@ public class Main {
                 case 3:
                 	
                 	System.out.println("\n--- ALBUMS OWNED ---\n");
-                	for(Album a : user.getAlbumList()) {
+                	for(Album a : users.getAlbumList(currentUser)) {
                 		System.out.println("\t+" + a.getName());
                 	}
                     break;
                 case 4:
                 	System.out.println("\nEnter name or artist:\n");
                 	String nameOfAlbum = scanner.nextLine();
-                	ArrayList<Album> foundAlbums = user.searchAbum(nameOfAlbum);
+                	ArrayList<Album> foundAlbums = users.searchAbum(nameOfAlbum, currentUser);
                 	if (foundAlbums == null || foundAlbums.size() == 0) {
                 		System.out.println("Album not found! Try adding some more!");
                 		break;
@@ -263,7 +328,7 @@ public class Main {
                 case 5:
                 	System.out.println("\nEnter name or artist:\n");
                 	String nameOfAlbumD = scanner.nextLine();
-                	ArrayList<Album> foundAlbumsD = user.searchAbum(nameOfAlbumD);
+                	ArrayList<Album> foundAlbumsD = users.searchAbum(nameOfAlbumD, currentUser);
                 	if (foundAlbumsD == null || foundAlbumsD.size() == 0) {
                 		System.out.println("Album not found! Try adding some more!");
                 		break;
@@ -284,7 +349,7 @@ public class Main {
         }
         
 	}
-	public static void playlists(Scanner scanner, MusicStore store, LibraryModel user) {
+	public static void playlists(Scanner scanner, MusicStore store, User currentUser) {
 		System.out.println("\nWelcome to your PlayLists!");
 		boolean running = true;
         while (running) {
@@ -304,7 +369,7 @@ public class Main {
                 case 1:
                 	System.out.println("\nEnter name of PlayList:\n");
                 	String nameNewPlayList = scanner.nextLine();
-                	user.createNewPlayList(nameNewPlayList);
+                	users.createNewPlayList(nameNewPlayList, currentUser);
                     break;
                 case 2:
                 	System.out.println("\nEnter Song name:\n");
@@ -313,9 +378,9 @@ public class Main {
                 	String namePlayList = scanner.nextLine();
                 	System.out.println("Found: \n" + store.songInfo(nameSong));
                 	
-                	if(user.getPlayList(namePlayList) != null && store.getSong(nameSong) != null)
-                		user.addSongToPlayList(namePlayList,nameSong);
-                	else if(user.getPlayList(namePlayList) != null)
+                	if(users.getPlayList(namePlayList, currentUser) != null && store.getSong(nameSong) != null)
+                		users.addSongToPlayList(namePlayList,nameSong, currentUser);
+                	else if(users.getPlayList(namePlayList, currentUser) != null)
                 		System.out.println("No playlist found");
                 	else
                 		System.out.println("No song or playlist found");
@@ -325,11 +390,11 @@ public class Main {
                 	String namePlayListRemove = scanner.nextLine();
                 	System.out.println("Enter song to remove:\n");
                 	String nameSongRemove = scanner.nextLine();
-                	if(user.getPlayList(namePlayListRemove) != null && user.getPlayList(namePlayListRemove).hasSong(nameSongRemove) ) {
-                		user.getPlayList(namePlayListRemove).removeSong(nameSongRemove);
+                	if(users.getPlayList(namePlayListRemove, currentUser) != null && users.getPlayList(namePlayListRemove, currentUser).hasSong(nameSongRemove) ) {
+                		users.getPlayList(namePlayListRemove, currentUser).removeSong(nameSongRemove);
                 		System.out.println("Removed!");
                 	}
-                	else if(user.getPlayList(namePlayListRemove) == null) 
+                	else if(users.getPlayList(namePlayListRemove, currentUser) == null) 
                 		System.out.println("No playlsit found");
                 	else
                 		System.out.println("No song found");
@@ -337,7 +402,7 @@ public class Main {
                 case 4:
                 	System.out.println("Enter playlist name:\n");
                 	String namePlayListSearch = scanner.nextLine();
-                	ArrayList<PlayList> searchResult = user.searchPlayListName(namePlayListSearch);
+                	ArrayList<PlayList> searchResult = users.searchPlayListName(namePlayListSearch, currentUser);
                 	if(searchResult.isEmpty())
                 		System.out.println("No PlayLists Found");
                 	else
@@ -351,14 +416,14 @@ public class Main {
                 	break;
                 case 5:
                 	System.out.println("\n---PLAYLISTS---\n");
-                	for(PlayList p : user.getPlayListList()) {
+                	for(PlayList p : users.getPlayListList(currentUser)) {
                 		System.out.println("\t+" +p.getName());
                 	}
                 	break;
                 case 6:
                 	System.out.println("Enter playlist name:\n");
                 	String playListSearch = scanner.nextLine();
-                	ArrayList<PlayList> searchResultPlayList = user.searchPlayListName(playListSearch);
+                	ArrayList<PlayList> searchResultPlayList = users.searchPlayListName(playListSearch, currentUser);
                 	if(searchResultPlayList.isEmpty())
                 		System.out.println("No PlayLists Found");
                 	else
@@ -382,7 +447,7 @@ public class Main {
             }
         }        
 	}
-	public static void songLibrary(Scanner scanner, MusicStore store, LibraryModel user) {
+	public static void songLibrary(Scanner scanner, MusicStore store, User currentUser) {
 		System.out.println("\nWelcome to your Song Library!");
 		boolean running = true;
         while (running) {
@@ -413,7 +478,7 @@ public class Main {
                 		System.out.println("No song found");
                 	else {
                 		for(Song s : store.getSong(nameSong)) {
-                			user.addSongToLib(s);
+                			users.addSongToLib(s, currentUser);
                 		}
                 	}
                 	System.out.println("More information? Yes or no (1 or 2)");
@@ -425,7 +490,7 @@ public class Main {
                     	if (moreInfo == 1) {
                     		for(Song s : store.getSong(nameSong)) {
                     			System.out.println("From album: "+s.getAlbum().getFullInfo());
-                    			if (user.searchAbum(s.getAlbum().getName()).size() > 0) {
+                    			if (users.searchAbum(s.getAlbum().getName(), currentUser).size() > 0 ){
                     				System.out.println("This Album is within the user library");
                     			} else {
                     				System.out.println("This Album is not within the user library");
@@ -439,10 +504,10 @@ public class Main {
                 	System.out.println("Pick a song to remove: (Enter Song name)");
                 	String nameSongRemove = scanner.nextLine();
                 	
-                	if(user.searchSongTitle(nameSongRemove).isEmpty())
+                	if(users.searchSongTitle(nameSongRemove, currentUser).isEmpty())
                 		System.out.println("No Songs Found with That Name!");
                 	else {
-                		ArrayList<Song> temp = user.searchSongTitle(nameSongRemove);
+                		ArrayList<Song> temp = users.searchSongTitle(nameSongRemove, currentUser);
                 		for(Song s : temp) {
                 			System.out.println(s.getInfo());
                 		}
@@ -452,7 +517,7 @@ public class Main {
                         	System.out.println("Not an option!");
                         	break;
                         } else {
-                        	user.removeSong(temp.get(pickChoice-1));;
+                        	users.removeSong(temp.get(pickChoice-1), currentUser);;
                         	System.out.println(temp.get(pickChoice-1).getName()+" removed");
                         }  
                 	}
@@ -460,7 +525,7 @@ public class Main {
                 case 3:
                 	System.out.println("\nEnter Song Name to Favorite:\n");
                 	String nameSongFavorite = scanner.nextLine();
-                	if(user.favoriteSong(nameSongFavorite))
+                	if(users.favoriteSong(nameSongFavorite, currentUser))
                 		System.out.println("Favorited!");
                 	else
                 		System.out.println("Song not Found!");
@@ -469,10 +534,10 @@ public class Main {
                 	System.out.println("\nEnter Song Name:\n");
                 	String nameSongSearch = scanner.nextLine();
                 	
-                	if(user.searchSongTitle(nameSongSearch).isEmpty())
+                	if(users.searchSongTitle(nameSongSearch, currentUser).isEmpty())
                 		System.out.println("No Songs Found with That Name!");
                 	else {
-                	for(Song s : user.searchSongTitle(nameSongSearch)) {
+                	for(Song s : users.searchSongTitle(nameSongSearch, currentUser)) {
                 		System.out.println(s.getInfo());}
                 	}
                     break;
@@ -480,27 +545,27 @@ public class Main {
                 	System.out.println("\nEnter Artists Name:\n");
                 	String nameArtistSearch = scanner.nextLine();
                 	
-                	if(user.searchSongArtist(nameArtistSearch).isEmpty())
+                	if(users.searchSongArtist(nameArtistSearch, currentUser).isEmpty())
                 		System.out.println("No Songs Found with That Artist!");
-                	for(Song s : user.searchSongArtist(nameArtistSearch)) {
+                	for(Song s : users.searchSongArtist(nameArtistSearch, currentUser)) {
                 		System.out.println(s.getInfo());
                 	}
                     break;
                 case 6:
                 	System.out.println("\n --- Songs Owned --- \n");
-                	for(Song s : user.getSongs()) {
+                	for(Song s : users.getSongs(currentUser)) {
                 		System.out.println(s.getInfo());
                 	}
                 	break;
                 case 7:
                 	System.out.println("\n --- Artists Owned --- \n");
-                	for(String artists : user.getArtists()) {
+                	for(String artists : users.getArtists(currentUser)) {
                 		System.out.println(artists);
                 	}
                 	break;
                 case 8:
                 	System.out.println("\n --- Favorited Songs --- \n");
-                	for(Song s : user.getFavorites()) {
+                	for(Song s : users.getFavorites(currentUser)) {
                 		System.out.println(s.getInfo());
                 	}
                 	break; 
@@ -510,13 +575,13 @@ public class Main {
                 	System.out.println("Enter a rating:");
                 	int rate = scanner.nextInt();
                 	scanner.nextLine();
-                	if(user.rateSongTitle(nameSongRate, rate))
+                	if(users.rateSongTitle(nameSongRate, rate, currentUser))
                 		System.out.println("Rated!");
                 	else
                 		System.out.println("Song not Found!");
                 	break;
                 case 10:
-                	sortSong(scanner, store, user);
+                	sortSong(scanner, store, currentUser);
                 case 11:
                 	running = false;
                 	break;
@@ -526,7 +591,7 @@ public class Main {
             }
         }        
 	}	
-	public static void songPlay(Scanner scanner, MusicStore store, LibraryModel user) {
+	public static void songPlay(Scanner scanner, MusicStore store, User currentuser) {
 		System.out.println("\nWelcome to manage songs!");
 		boolean running = true;
         while (running) {
@@ -546,10 +611,10 @@ public class Main {
                 	System.out.println("Pick a song to play: (Enter Song name)");
                 	String nameSongSearch = scanner.nextLine();
                 	
-                	if(user.searchSongTitle(nameSongSearch).isEmpty())
+                	if(users.searchSongTitle(nameSongSearch, currentUser).isEmpty())
                 		System.out.println("No Songs Found with That Name!");
                 	else {
-                		ArrayList<Song> temp = user.searchSongTitle(nameSongSearch);
+                		ArrayList<Song> temp = users.searchSongTitle(nameSongSearch, currentUser);
                 		for(Song s : temp) {
                 			System.out.println(s.getInfo());
                 		}
@@ -559,7 +624,7 @@ public class Main {
                         	System.out.println("Not an option!");
                         	break;
                         } else {
-                        	user.playSong(temp.get(pickChoice-1));
+                        	users.playSong(temp.get(pickChoice-1), currentUser);
                         	System.out.println(temp.get(pickChoice-1).getName()+" played");
                         }
                         
@@ -570,7 +635,7 @@ public class Main {
                 	// Option 2: List 10 songs based on how recent
                 	System.out.println("Recently played songs: ");
                 	int i = 1;
-                	for (Song s : user.getRecent()) {
+                	for (Song s : users.getRecent(currentUser)) {
                 		System.out.println(i + " - "+s.getName());
                 		i++;
                 	}
@@ -579,7 +644,7 @@ public class Main {
                 case 3:
                 	// Option 3: List 10 songs with counts based on how plays
                 	System.out.println("Frequently played songs: ");
-                	System.out.print(user.getFrqListToString());
+                	System.out.print(users.getFrqListToString(currentUser));
                 	break;
                 case 4:
                 	running = false;
@@ -590,7 +655,7 @@ public class Main {
             }
         }
 	}
-	public static void sortSong(Scanner scanner, MusicStore store, LibraryModel user) {
+	public static void sortSong(Scanner scanner, MusicStore store, User currentUser) {
 		System.out.println("\nWelcome to sort songs!");
 		boolean running = true;
         while (running) {
@@ -608,7 +673,7 @@ public class Main {
             switch (choice) {
                 case 1:
                     // Sort by name
-                	ArrayList<Song> sortName = user.getSongsBy(0);
+                	ArrayList<Song> sortName = users.getSongsBy(0, currentUser);
                 	System.out.println("All Songs based on Title");
                 	for (Song s : sortName) {
                 		System.out.println(" " + s.getInfo());
@@ -616,7 +681,7 @@ public class Main {
                     break;
                 case 2:
                 	// Sort by Author
-                	ArrayList<Song> sortAuthor = user.getSongsBy(1);
+                	ArrayList<Song> sortAuthor = users.getSongsBy(1, currentUser);
                 	System.out.println("All Songs based on Author");
                 	for (Song s : sortAuthor) {
                 		System.out.println(" " + s.getInfo());
@@ -624,14 +689,14 @@ public class Main {
                     break;
                 case 3:
                 	// Sort by Rating
-                	ArrayList<Song> sortRating = user.getSongsBy(0);
+                	ArrayList<Song> sortRating = users.getSongsBy(0, currentUser);
                 	System.out.println("All Songs based on Rating (High to low)");
                 	for (Song s : sortRating) {
                 		System.out.println(" " + s.getInfo());
                 	}
                     break;
                 case 4:
-                	List<Song> tempList = user.shuffleSongs();
+                	List<Song> tempList = users.shuffleSongs(currentUser);
                 	System.out.println("Shuffling Library Songs: ");
                 	for (Song s : tempList) {
                 		System.out.println(" " + s.getName());

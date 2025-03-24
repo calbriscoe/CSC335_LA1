@@ -15,10 +15,11 @@ import model.MusicStore;
 import model.Song;
 
 public class frequencyTest {
-	LibraryModel library = new LibraryModel();
+
 
     File file = new File("src/albums/19_Adele.txt");
     MusicStore store = new MusicStore();
+	LibraryModel library = new LibraryModel(store);
 
 	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", "2021");
 	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", "2017");

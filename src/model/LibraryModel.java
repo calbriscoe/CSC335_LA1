@@ -17,17 +17,30 @@ public class LibraryModel {
 	private ArrayList<Album> albumList; // Specs require this, bit repetitive
 	private ArrayList<Song> recentList;
 	private HashMap<Song, Integer> frequency;
+	private HashMap<String, HashSet<Song>> genres;
 	private ArrayList<Song> frequencyList;
 	public  MusicStore musicStore;      
 	// Is the music store public or should it be built in Library?
 	
-	public LibraryModel() {
+	public LibraryModel(MusicStore store) {
 		this.library = new ArrayList<Song>();
 		this.playList = new ArrayList<PlayList>();
+		playList.add(new PlayList("favorites"));
+		playList.add(new PlayList("top rated"));
 		this.albumList = new ArrayList<Album>();
 		this.recentList = new ArrayList<Song>();
 		this.frequency = new HashMap<Song, Integer>();
 		this.frequencyList = new ArrayList<Song>();
+		this.musicStore = store;
+	}
+	
+	public LibraryModel(LibraryModel other) {
+		this.library = other.getLibrary();
+		this.playList = other.getPlayListList();
+		this.albumList = other.getAlbumList();
+		this.recentList = other.getRecent();
+		this.frequency = other.getFrequency();
+		this.frequencyList = other.getFrequencyList();
 	}
 
 	
@@ -36,6 +49,7 @@ public class LibraryModel {
 		for (Song s : library) {
 			if (s.getName().equals(songName)) {
 				s.setFavorite();
+				playList.get(0).addSong(s);;
 				returnval = true;
 			}
 		}
@@ -76,8 +90,35 @@ public class LibraryModel {
 	}
     
 	public void addSongToLib(Song s) {
-		if(!library.contains(s))
+		if(!library.contains(s)) {
 			library.add(s);
+			genres.get(s.getGenre()).add(s);
+			if(genres.get(s.getGenre()).size() >= 10 && !hasPlayList(s.getGenre())) {
+				playList.add(new PlayList(s.getGenre()));
+				addSongsToPlayListGenre(s.getGenre());
+			}
+			else if(genres.get(s.getGenre()).size() >= 10){
+				addSongsToPlayListGenre(s.getGenre());
+			}
+		}
+	}
+	
+	private void addSongsToPlayListGenre(String genre) {
+		for(Song s : genres.get(genre)) {
+			for(PlayList p : playList) {
+				if(p.getName().equals(genre) && !p.hasSong(s.getName())) {
+					p.addSong(s);
+				}
+			}
+		}
+	}
+	
+	public boolean hasPlayList(String name) {
+		for(PlayList p : playList) {
+			if(p.getName().equals(name))
+				return true;
+		}
+		return false;
 	}
 
 	public void addAlbum(ArrayList<Album> album) {
@@ -132,10 +173,15 @@ public class LibraryModel {
 		for (Song s : library) {
 			if (s.getName().equals(title)) {
 				s.setRating(rating);
+				playList.get(1).addSong(s);
 				returnVal = true;
 			}
 		}
 		return returnVal;
+	}
+	
+	public HashSet<Song> searchSongsGenre(String genre) {
+		return genres.get(genre);
 	}
 
 	public ArrayList<Song> searchSongArtist(String artist) {
@@ -362,5 +408,12 @@ public class LibraryModel {
 			tempList.add(new Song(s));
 		}
 		return tempList;
+	}
+	public ArrayList<Song> getLibrary(){
+		return (ArrayList<Song>) this.library.clone();
+	}
+	
+	public HashMap<String, HashSet<Song>> getGenres(){
+		return (HashMap<String, HashSet<Song>>) genres.clone();
 	}
 }
