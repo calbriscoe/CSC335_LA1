@@ -220,7 +220,10 @@ public class User {
 	}
 
 	public HashSet<Song> searchSongsGenre(String genre) {
-		return this.library.getGenres().get(genre);
+		if(this.library.getGenres().containsKey(genre))
+			return this.library.getGenres().get(genre);
+		else 
+			return null;
 	}
 	
 	public ArrayList<Album> getAlbumList() {
