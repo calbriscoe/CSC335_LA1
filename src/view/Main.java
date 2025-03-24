@@ -456,12 +456,13 @@ public class Main {
             System.out.println("3. Favorite a Song");
             System.out.println("4. Search for a Song by Name");
             System.out.println("5. Search for a Song by Artist");
-            System.out.println("6. List Songs");
-            System.out.println("7. List Artists");
-            System.out.println("8. List Favorites");
-            System.out.println("9. Rate a Song");
-            System.out.println("10.Sort Your Songs");
-            System.out.println("11.Return");
+            System.out.println("6. Search for a Song by Genre");
+            System.out.println("7. List Songs");
+            System.out.println("8. List Artists");
+            System.out.println("9. List Favorites");
+            System.out.println("10. Rate a Song");
+            System.out.println("11.Sort Your Songs");
+            System.out.println("12.Return");
             
             // Get the user's choice
             System.out.print("Enter your choice (1, 2, 3, 4, 5, 6, 7 ,8, 9, 10 or 11): ");
@@ -551,25 +552,39 @@ public class Main {
                 		System.out.println(s.getInfo());
                 	}
                     break;
+                    
                 case 6:
+                	System.out.println("\nEnter Artists Name:\n");
+                	String nameGenreSearch = scanner.nextLine();
+                	
+                	if(users.searchSongsGenre(nameGenreSearch, currentUser) == null)
+                		System.out.println("No Songs Found with That Artist!");
+                	else {
+                    	for(Song s : users.searchSongArtist(nameGenreSearch, currentUser)) {
+                    		System.out.println(s.getInfo());
+                	}
+                	}
+                    break;
+                    
+                case 7:
                 	System.out.println("\n --- Songs Owned --- \n");
                 	for(Song s : users.getSongs(currentUser)) {
                 		System.out.println(s.getInfo());
                 	}
                 	break;
-                case 7:
+                case 8:
                 	System.out.println("\n --- Artists Owned --- \n");
                 	for(String artists : users.getArtists(currentUser)) {
                 		System.out.println(artists);
                 	}
                 	break;
-                case 8:
+                case 9:
                 	System.out.println("\n --- Favorited Songs --- \n");
                 	for(Song s : users.getFavorites(currentUser)) {
                 		System.out.println(s.getInfo());
                 	}
                 	break; 
-                case 9:
+                case 10:
                 	System.out.println("\nEnter Song Name to Rate:\n");
                 	String nameSongRate = scanner.nextLine();
                 	System.out.println("Enter a rating:");
@@ -580,9 +595,9 @@ public class Main {
                 	else
                 		System.out.println("Song not Found!");
                 	break;
-                case 10:
-                	sortSong(scanner, store, currentUser);
                 case 11:
+                	sortSong(scanner, store, currentUser);
+                case 12:
                 	running = false;
                 	break;
                 default:

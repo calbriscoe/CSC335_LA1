@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -69,6 +70,10 @@ public class Users {
 	
 	public boolean rateSongTitle(String title, int rating, User u) {
 		return users.get(u.getUsername()).rateSongTitle(title, rating);
+	}
+	
+	public HashSet<Song> searchSongsGenre(String genre, User u) {
+		return users.get(u.getUsername()).searchSongsGenre(genre);
 	}
 	
 	public ArrayList<Song> searchSongArtist(String artist, User u){

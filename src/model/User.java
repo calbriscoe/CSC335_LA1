@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -218,6 +219,10 @@ public class User {
 	    return this.library.getArtists();
 	}
 
+	public HashSet<Song> searchSongsGenre(String genre) {
+		return this.library.getGenres().get(genre);
+	}
+	
 	public ArrayList<Album> getAlbumList() {
 	    return this.library.getAlbumList();
 	}
