@@ -62,16 +62,17 @@ public class frequencyTest {
 		library.playSong(song9);
 		library.playSong(song10);
 		assertTrue((library.getRecent().size() == 10));
-		assertTrue((library.getRecent().get(0) == song10));
-		assertTrue((library.getRecent().get(9) == song1));
+		assertTrue(library.getRecent().get(0).getName().equals(song10.getName()));
+		assertTrue(library.getRecent().get(9).getName().equals(song1.getName()));
 		library.playSong(song11);
 		assertTrue((library.getRecent().size() == 10));
-		assertTrue((library.getRecent().get(0) == song11));
-		assertTrue((library.getRecent().get(9) == song2));
+		assertTrue(library.getRecent().get(0).getName().equals(song11.getName()));
+		assertTrue(library.getRecent().get(9).getName().equals(song2.getName()));
 		library.playSong(song12);
 		assertTrue((library.getRecent().size() == 10));
-		assertTrue((library.getRecent().get(0) == song12));
-		assertTrue((library.getRecent().get(9) == song3));
+		assertTrue(library.getRecent().get(0).getName().equals(song12.getName()));
+		assertTrue(library.getRecent().get(9).getName().equals(song3.getName()));
+	}	
 	}	
 	
 	@Test
