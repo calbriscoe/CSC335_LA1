@@ -68,9 +68,16 @@ class albumTest {
     @Test
     void testWhatEverThisIs() {
     	album2.addSongs(file);
-    	assertEquals(album2.getYear(), 2008);
+    	assertEquals(album2.getYear(), "2008");
     	assertEquals(album2.getGenre(), "Pop");
     	assertEquals(album2.getFullInfo(),"21 by Adele created in 2008. Genre: Pop");
+    }
+    
+    @Test
+    void testHashCode() {
+    	Album album1 = new Album("Jen", "Plums");
+    	Album album2 = new Album("Jen", "Plums");
+    	assertEquals(album1.hashCode(), album2.hashCode());
     }
 	
 }

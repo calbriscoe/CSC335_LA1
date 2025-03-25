@@ -37,6 +37,8 @@ class testUsers {
 	@Test
 	void rateSongTest() {
 		users.addNewUser(user);
+		assertTrue(users.userExists("Test"));
+		assertEquals(users.getUser("NotReal"), null);
 		users.addSongToLib(song1, user);
 		assertTrue(user.rateSongTitle("Waltzing Back", 1));
 	}	
@@ -127,6 +129,16 @@ class testUsers {
 		users.addAlbum(album1, user);
 		assertEquals(user.getAlbumList().get(0), album1);
 	}
+	@Test
+	void testAddAlbums() {
+		users.addNewUser(user);
+		ArrayList<Album> albums = new ArrayList<Album>();
+		albums.add(album1);
+		albums.add(album2);
+		users.addAlbum(albums, user);
+		assertEquals(users.searchAbum("Jen", user).size(), 1);
+		assertEquals(users.searchAbum("saf", user).size(), 0);
+	}
 
 	@Test
 	void getFavorites() {
@@ -134,6 +146,7 @@ class testUsers {
 		users.addSongToLib(song2, user);
 		users.favoriteSong("Yam Yam", user);
 		assertEquals(user.getFavorites().get(0), song2);
+		assertEquals(users.getFavorites(user).get(0), song2);
 	}
 	
 	@Test
@@ -253,6 +266,9 @@ class testUsers {
 		users.removeSongsByName("Waltzing Back", user);;
 		assertEquals(users.getSongs(user).size(),1);
 		assertTrue(!users.getSongs(user).contains(song1));
+		
+		users.removeSong(song2, user);
+		assertEquals(users.getSongs(user).size(),0);
 	}
 	
 	@Test
@@ -280,6 +296,7 @@ class testUsers {
 		users.createFrqList(user);
 		assertTrue(users.getFrequencyList(user).size()==5);
 		
+		assertTrue(users.getFrqListToString(user) != null);
 		//System.out.print(library.getFrqListToString());
 		assertTrue(true); // Printed correct
 		

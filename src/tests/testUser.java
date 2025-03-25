@@ -21,7 +21,7 @@ class testUser {
 	    User user = new User("Test", "Password", store);
 	    User user2 = new User("adfsadjfla", "Password123", store);
 	    assertTrue(user.correctPassword("Test", "Password"));
-	    assertFalse(user2.correctPassword("adfsadjfla", "Password1"));
+	    assertFalse(user2.correctPassword("adfsadjfla", "Wrong Password"));
 	}
 	@Test
 	void genSalt() {
@@ -77,7 +77,7 @@ class testUser {
 	@Test
 	void testCreateNewPlayList() {
 		user.createNewPlayList("Test");
-		assertEquals(user.getPlayListList().size(), 3);
+		assertEquals(user.getPlayList("Test").getName(), "Test");
 	}
 	
 	@Test

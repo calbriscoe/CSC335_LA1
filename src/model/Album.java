@@ -10,7 +10,7 @@ public class Album {
 	private String name;
 	private String author;
 	private String genre;
-	private int year;
+	private String year;
 	
 	// Add way to read in files 
 	public Album(String name, String author) {
@@ -23,6 +23,8 @@ public class Album {
 		this.songs = (ArrayList<Song>) album.songs.clone();
 		this.name = album.name;
 		this.author = album.author;
+		this.genre = album.genre;
+		this.year = album.year;
 	}
 	// Searches for a Song within album
 	public ArrayList<Song> searchSong(String name) {
@@ -44,8 +46,7 @@ public class Album {
 	        String author = infoArr[1];
 	        String genre  = infoArr[2];
 	        String year   = infoArr[3];
-	        
-	        this.year = Integer.valueOf(year);
+	        this.year = infoArr[3]+"";
 	        this.genre = genre;
 	        
 	        while (myReader.hasNextLine()) {
@@ -66,7 +67,7 @@ public class Album {
 	public String getAuthor() {
 		return this.author;
 	}
-	public int getYear() {
+	public String getYear() {
 		return this.year;
 	}
 	public String getGenre() {

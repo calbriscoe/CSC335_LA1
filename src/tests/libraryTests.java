@@ -76,8 +76,11 @@ class libraryTests {
 	@Test
 	void getPLTEsTS() {
 		library.createNewPlayList("Test");
+	    assertEquals(store.getAlbum("Not Here"), null);
 		store.addAlbum(file);
+	    store.getAlbum("Plums");
 	    library.musicStore = store;
+	    library.addAlbum(store.getAlbumList());
 		library.addSongToPlayList("Test", "Tired");
 		assertTrue(library.getPlayListList().get(2).hasSong("Tired"));
 	}
@@ -185,4 +188,5 @@ class libraryTests {
 		library.createNewPlayList("Test");
 		assertEquals(library.getPlayListList().size(),3);
 	}
+	
 }

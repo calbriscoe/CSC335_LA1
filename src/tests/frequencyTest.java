@@ -73,7 +73,7 @@ public class frequencyTest {
 		assertTrue(library.getRecent().get(0).getName().equals(song12.getName()));
 		assertTrue(library.getRecent().get(9).getName().equals(song3.getName()));
 	}	
-	}	
+		
 	
 	@Test
 	void testFrequencyTable() {

@@ -287,7 +287,7 @@ public class Main {
                 	System.out.println("Pick a album to remove: (Enter Album name)");
                 	String nameAlbumRemove = scanner.nextLine();
                 	
-                	if(users.searchSongTitle(nameAlbumRemove, currentUser).isEmpty())
+                	if(users.searchAbum(nameAlbumRemove, currentUser).isEmpty())
                 		System.out.println("No Album Found with That Name!");
                 	else {
                 		ArrayList<Album> temp = users.searchAlbumInfoName(nameAlbumRemove, currentUser);
@@ -449,7 +449,7 @@ public class Main {
         }        
 	}
 	public static void songLibrary(Scanner scanner, MusicStore store, User currentUser) {
-		System.out.println("\nWelcome to your Song Library!");
+		System.out.println("\nWelcome to your Song Library!"); 
 		boolean running = true;
         while (running) {
             System.out.println("1. Add a Song");
@@ -461,7 +461,7 @@ public class Main {
             System.out.println("7. List Songs");
             System.out.println("8. List Artists");
             System.out.println("9. List Favorites");
-            System.out.println("10. Rate a Song");
+            System.out.println("10.Rate a Song");
             System.out.println("11.Sort Your Songs");
             System.out.println("12.Return");
             
@@ -476,9 +476,10 @@ public class Main {
                 	System.out.println("\nEnter name:\n");
                 	String nameSong = scanner.nextLine();
                 	System.out.println("Found: \n" + store.songInfo(nameSong));
-                	if(store.getSong(nameSong) == null)
+                	if(store.getSong(nameSong) == null) {
                 		System.out.println("No song found");
-                	else {
+                		break;	
+            		}else {
                 		for(Song s : store.getSong(nameSong)) {
                 			users.addSongToLib(s, currentUser);
                 		}
@@ -495,7 +496,7 @@ public class Main {
                     			if (users.searchAbum(s.getAlbum().getName(), currentUser).size() > 0 ){
                     				System.out.println("This Album is within the user library");
                     			} else {
-                    				System.out.println("This Album is not within the user library");
+                    				System.out.println("This Album is not within the user library");  
                     			}
                     		}
                     	}
@@ -555,13 +556,13 @@ public class Main {
                     break;
                     
                 case 6:
-                	System.out.println("\nEnter Artists Name:\n");
+                	System.out.println("\nEnter Genre:\n");
                 	String nameGenreSearch = scanner.nextLine();
                 	
                 	if(users.searchSongsGenre(nameGenreSearch, currentUser) == null)
-                		System.out.println("No Songs Found with That Artist!");
+                		System.out.println("No Songs Found with That Genre!");
                 	else {
-                    	for(Song s : users.searchSongArtist(nameGenreSearch, currentUser)) {
+                    	for(Song s : users.searchSongsGenre(nameGenreSearch, currentUser)) {
                     		System.out.println(s.getInfo());
                 	}
                 	}
@@ -705,7 +706,7 @@ public class Main {
                     break;
                 case 3:
                 	// Sort by Rating
-                	ArrayList<Song> sortRating = users.getSongsBy(0, currentUser);
+                	ArrayList<Song> sortRating = users.getSongsBy(2, currentUser);
                 	System.out.println("All Songs based on Rating (High to low)");
                 	for (Song s : sortRating) {
                 		System.out.println(" " + s.getInfo());
