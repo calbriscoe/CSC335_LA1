@@ -23,7 +23,8 @@ public class User {
 	public User(String username, String password, MusicStore store){
 		if(usernameUsed(username)) {
 			this.username = username;
-			this.library = new LibraryModel(store); 
+			this.library = new LibraryModel(store);
+			return;
 		}
 		this.username = username;
 		String salt = generateSalt();

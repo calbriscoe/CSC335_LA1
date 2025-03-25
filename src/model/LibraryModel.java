@@ -30,6 +30,9 @@ public class LibraryModel {
 		this.albumList = new ArrayList<Album>();
 		this.recentList = new ArrayList<Song>();
 		this.frequency = new HashMap<Song, Integer>();
+
+		this.genres = new HashMap<String, HashSet<Song>> ();
+		
 		this.frequencyList = new ArrayList<Song>();
 		this.musicStore = store;
 	}
@@ -90,17 +93,22 @@ public class LibraryModel {
 	}
     
 	public void addSongToLib(Song s) {
-		if(!library.contains(s)) {
-			library.add(s);
-			genres.get(s.getGenre()).add(s);
-			if(genres.get(s.getGenre()).size() >= 10 && !hasPlayList(s.getGenre())) {
-				playList.add(new PlayList(s.getGenre()));
-				addSongsToPlayListGenre(s.getGenre());
-			}
-			else if(genres.get(s.getGenre()).size() >= 10){
-				addSongsToPlayListGenre(s.getGenre());
-			}
-		}
+	    if(!library.contains(s)) {
+	        library.add(s);
+	        
+	        if(!genres.containsKey(s.getGenre())) {
+	            genres.put(s.getGenre(), new HashSet<Song>());
+	        }
+	        genres.get(s.getGenre()).add(s);
+	        if(!hasPlayList(s.getGenre())) {
+	            if(genres.get(s.getGenre()).size() >= 9) {
+	                playList.add(new PlayList(s.getGenre()));
+	                addSongsToPlayListGenre(s.getGenre());
+	            }
+	        } else if(genres.get(s.getGenre()).size() >= 10) {
+	            addSongsToPlayListGenre(s.getGenre());
+	        }
+	    }
 	}
 	
 	private void addSongsToPlayListGenre(String genre) {
@@ -181,7 +189,11 @@ public class LibraryModel {
 	}
 	
 	public HashSet<Song> searchSongsGenre(String genre) {
-		return genres.get(genre);
+	    if (genres.containsKey(genre)) {
+	        return new HashSet<>(genres.get(genre));
+	    } else {
+	        return new HashSet<>();
+	    }
 	}
 
 	public ArrayList<Song> searchSongArtist(String artist) {

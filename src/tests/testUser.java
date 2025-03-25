@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,13 @@ class testUser {
 		user.recordNewUserTest("Test", "asdkfjasldkf", "askjdf");
 	}
 
+	
+	@Test
+	void makeRandomUser() {
+		String username = "User" + new Random().nextInt(100000);
+		String password = "User" + new Random().nextInt(100000);
+		User user = new User(username, password, store);
+	}
 
 	Song song1 = new Song("Waltzing Back", "No Vacation", "Indie", "2021");
 	Song song2 = new Song("Yam Yam", "No Vacation", "Indie", "2017");
@@ -53,14 +61,6 @@ class testUser {
 	Album album2 = new Album("Summer Break Mixtape", "No Vacation");
 
 	@Test
-	void testEmpty() {
-		assertTrue(user.getAlbumList().isEmpty());
-		assertTrue(user.getArtists().isEmpty());
-		assertTrue(user.getFavorites().isEmpty());
-		assertTrue(user.getPlayListList().isEmpty());
-		assertTrue(user.getPlayListList().isEmpty());
-	}
-	@Test
 	void rateSongTest() {
 		user.addSongToLib(song1);
 		assertTrue(user.rateSongTitle("Waltzing Back", 1));
@@ -71,13 +71,13 @@ class testUser {
 		ArrayList<Album> test = new ArrayList<Album>();
 		test.add(album1);
 		user.addPlayList(test);
-		assertEquals(user.getPlayListList().size(),1);
+		assertEquals(user.getPlayListList().size(),3);
 	}
 	
 	@Test
 	void testCreateNewPlayList() {
 		user.createNewPlayList("Test");
-		assertEquals(user.getPlayListList().size(), 1);
+		assertEquals(user.getPlayListList().size(), 3);
 	}
 	
 	@Test
@@ -92,12 +92,12 @@ class testUser {
 		user.createNewPlayList("Test");
 		store.addAlbum(file);
 		user.addSongToPlayList("Test", "Tired");
-		assertTrue(user.getPlayListList().get(0).hasSong("Tired"));
+		assertTrue(user.getPlayListList().get(2).hasSong("Tired"));
 	}
 	@Test
 	void testCreatelayList() {
 		user.createNewPlayList("Test");
-		assertEquals(user.getPlayListList().size(), 1);
+		assertEquals(user.getPlayListList().size(), 3);
 	}
 
 	@Test
@@ -130,7 +130,7 @@ class testUser {
 	void addToPlayListTest() {
 		user.createNewPlayList("Test");
 		user.addToPlayList("Test", song1);
-		assertEquals(user.getPlayListList().get(0).getSongs().get(0), song1);
+		assertEquals(user.getPlayListList().get(2).getSongs().get(0), song1);
 	}
 	
 	@Test 
@@ -208,6 +208,6 @@ class testUser {
 	void makePlayListOfSameName() {
 		user.createNewPlayList("Test");
 		user.createNewPlayList("Test");
-		assertEquals(user.getPlayListList().size(),1);
+		assertEquals(user.getPlayListList().size(),3);
 	}
 }

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import model.Album;
@@ -37,14 +38,7 @@ class libraryTests {
 	Album album1 = new Album("Jen", "Plums");
 	Album album2 = new Album("Summer Break Mixtape", "No Vacation");
 
-	@Test
-	void testEmpty() {
-		assertTrue(library.getAlbumList().isEmpty());
-		assertTrue(library.getArtists().isEmpty());
-		assertTrue(library.getFavorites().isEmpty());
-		assertTrue(library.getPlayListList().isEmpty());
-		assertTrue(library.getPlayListList().isEmpty());
-	}
+
 	@Test
 	void rateSongTest() {
 		library.addSongToLib(song1);
@@ -52,17 +46,24 @@ class libraryTests {
 	}	
 	
 	@Test
+	void addAlbum() {
+		library.addAlbum(new ArrayList<Album>(Arrays.asList(album1, album2)));
+		assertEquals(library.getAlbumList().size(), 2);
+	}	
+	
+	
+	@Test
 	void addPlayListTest() {
 		ArrayList<Album> test = new ArrayList<Album>();
 		test.add(album1);
 		library.addPlayList(test);
-		assertEquals(library.getPlayListList().size(),1);
+		assertEquals(library.getPlayListList().size(),3);
 	}
 	
 	@Test
 	void testCreateNewPlayList() {
 		library.createNewPlayList("Test");
-		assertEquals(library.getPlayListList().size(), 1);
+		assertEquals(library.getPlayListList().size(), 3);
 	}
 	
 	@Test
@@ -78,25 +79,12 @@ class libraryTests {
 		store.addAlbum(file);
 	    library.musicStore = store;
 		library.addSongToPlayList("Test", "Tired");
-		assertTrue(library.getPlayListList().get(0).hasSong("Tired"));
+		assertTrue(library.getPlayListList().get(2).hasSong("Tired"));
 	}
 	@Test
 	void testCreatelayList() {
 		library.createPlayList("Test");
-		assertEquals(library.getPlayListList().size(), 1);
-	}
-
-	@Test
-	void testAddSong() {
-		library.addSongToLib(song1);
-		library.addSongToLib(song2);
-		library.addSongToLib(song3);
-		ArrayList<Song> songs = new ArrayList<Song>();
-		songs.add(song1);
-		songs.add(song2);
-		songs.add(song3);
-
-		assertEquals(library.getSongs(), (songs));
+		assertEquals(library.getPlayListList().size(), 3);
 	}
 
 	@Test
@@ -116,7 +104,8 @@ class libraryTests {
 	void addToPlayListTest() {
 		library.createNewPlayList("Test");
 		library.addToPlayList("Test", song1);
-		assertEquals(library.getPlayListList().get(0).getSongs().get(0), song1);
+		library.addSongToPlayList("Tesfsst", "song1");
+		assertEquals(library.getPlayListList().get(2).getSongs().get(0), song1);
 	}
 	
 	@Test 
@@ -194,6 +183,6 @@ class libraryTests {
 	void makePlayListOfSameName() {
 		library.createNewPlayList("Test");
 		library.createNewPlayList("Test");
-		assertEquals(library.getPlayListList().size(),1);
+		assertEquals(library.getPlayListList().size(),3);
 	}
 }

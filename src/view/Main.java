@@ -358,7 +358,8 @@ public class Main {
             System.out.println("3. Remove a Song from An Existing Playlist");
             System.out.println("4. Search for A PlayList");
             System.out.println("5. List PlayLists");
-            System.out.println("6. Return");
+            System.out.println("6. Suffle PlayLists");
+            System.out.println("7. Return");
             
             // Get the user's choice
             System.out.print("Enter your choice (1,2,3,4,5 or 6): ");
